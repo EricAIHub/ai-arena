@@ -1,4 +1,4 @@
-/* AI Arena �?Layout v2.0 */
+/* AI Arena �?Layout v2.0 */
 
 /* ===== Theme toggle button ===== */
 .btn-theme {
@@ -28,7 +28,7 @@
 }
 
 /* ================================================================
-   NAVBAR �?glass with gradient accent line
+   NAVBAR �?glass with gradient accent line
    ================================================================ */
 .navbar {
     display: flex;
@@ -53,7 +53,7 @@
     padding-right: var(--space-4);
     position: relative;
 }
-/* Top gradient accent line �?enhanced */
+/* Top gradient accent line �?enhanced */
 .navbar::before {
     content: '';
     position: absolute;
@@ -140,7 +140,7 @@
     color: var(--color-primary);
     background: var(--color-primary-glow);
 }
-/* Bottom indicator �?enhanced gradient bar */
+/* Bottom indicator �?enhanced gradient bar */
 .nav-btn.active::after {
     content: '';
     position: absolute;
@@ -266,7 +266,7 @@
     margin-bottom: var(--space-5);
 }
 
-/* Model card �?luminous accent stripe */
+/* Model card �?luminous accent stripe */
 .model-card {
     padding-left: calc(var(--space-5) + 4px);
     border-left: 4px solid #6366f1;
@@ -317,7 +317,7 @@
 }
 
 /* ================================================================
-   EMPTY STATE �?beautiful gradient emoji
+   EMPTY STATE �?beautiful gradient emoji
    ================================================================ */
 .empty-state {
     display: flex;
@@ -353,7 +353,7 @@
 }
 
 /* ================================================================
-   SCENARIO PAGE �?themed cards
+   SCENARIO PAGE �?themed cards
    ================================================================ */
 .scenario-grid {
     display: grid;
@@ -367,7 +367,7 @@
     padding: var(--space-5);
     border-radius: var(--radius-lg);
     transition: all var(--transition-base);
-    /* Default glass card style �?overridden per scenario */
+    /* Default glass card style �?overridden per scenario */
     background: linear-gradient(145deg, rgba(17, 17, 24, 0.8), rgba(25, 25, 32, 0.6));
     border: 1px solid rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
@@ -419,11 +419,14 @@
 .scenario-card[data-scenario="storytelling"] {
     --scenario-accent: var(--accent-story);
 }
+.scenario-card[data-scenario="silly_debate"] {
+    --scenario-accent: #f59e0b;
+}
 .scenario-card[data-scenario="custom"] {
     --scenario-accent: var(--accent-custom);
 }
 
-/* Playable indicator �?pulsing glow */
+/* Playable indicator �?pulsing glow */
 .scenario-card .scenario-status {
     position: absolute;
     top: var(--space-4);
@@ -472,7 +475,7 @@
     gap: var(--space-3);
 }
 
-/* Arena header �?elevated glass */
+/* Arena header �?elevated glass */
 .arena-header {
     display: flex;
     align-items: center;
@@ -516,7 +519,7 @@
     gap: var(--space-2);
 }
 
-/* Arena feed �?deep glass panel */
+/* Arena feed �?deep glass panel */
 .arena-feed {
     flex: 1;
     overflow-y: auto;
@@ -556,7 +559,7 @@
 }
 
 /* ================================================================
-   FEED EVENTS �?polished speech bubbles
+   FEED EVENTS �?polished speech bubbles
    ================================================================ */
 .feed-event {
     display: flex;
@@ -567,7 +570,7 @@
     position: relative;
 }
 
-/* Speech bubble �?polished glass */
+/* Speech bubble �?polished glass */
 .feed-event.event-speech {
     background: transparent;
     max-width: 85%;
@@ -606,7 +609,7 @@
     color: var(--color-text);
 }
 
-/* System �?centered with gradient accent */
+/* System �?centered with gradient accent */
 .feed-event.event-system {
     justify-content: center;
     padding: var(--space-2) var(--space-4);
@@ -633,21 +636,21 @@
     box-shadow: 0 0 6px var(--color-primary-glow);
 }
 
-/* Death �?red glow */
+/* Death �?red glow */
 .feed-event.event-death {
     background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, transparent 100%);
     border-left: 2px solid var(--color-danger);
     box-shadow: inset 4px 0 12px rgba(239, 68, 68, 0.05);
 }
 
-/* Vote �?amber glow */
+/* Vote �?amber glow */
 .feed-event.event-vote {
     background: linear-gradient(90deg, rgba(234, 179, 8, 0.1) 0%, transparent 100%);
     border-left: 2px solid var(--color-warning);
     box-shadow: inset 4px 0 12px rgba(234, 179, 8, 0.05);
 }
 
-/* Game over �?celebration */
+/* Game over �?celebration */
 .feed-event.event-game_over {
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.06) 100%);
     border: 1px solid rgba(99, 102, 241, 0.2);
@@ -766,7 +769,7 @@
 }
 
 /* ================================================================
-   PLAYER CARD �?玩家状态卡�?   ================================================================ */
+   PLAYER CARD �?玩家状态卡�?   ================================================================ */
 .player-card {
     display: flex;
     align-items: center;
@@ -839,7 +842,7 @@
 }
 
 /* ================================================================
-   THINKING INDICATOR �?思考指示器
+   THINKING INDICATOR �?思考指示器
    ================================================================ */
 .event-thinking {
     opacity: 0.7;
@@ -867,7 +870,7 @@
 .thinking-dots span:nth-child(3) { animation-delay: 0.32s; }
 
 /* ================================================================
-   EVENT TIMESTAMP �?消息时间�?   ================================================================ */
+   EVENT TIMESTAMP �?消息时间�?   ================================================================ */
 .event-time {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
@@ -881,7 +884,7 @@
 }
 
 /* ================================================================
-   MODAL �?确认对话�?   ================================================================ */
+   MODAL �?确认对话�?   ================================================================ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -929,7 +932,7 @@
 }
 
 /* ================================================================
-   GAME OVER �?增强效果
+   GAME OVER �?增强效果
    ================================================================ */
 .game-over-content {
     text-align: center;
@@ -988,7 +991,7 @@
     display: none;
 }
 
-/* ������������������������?*/
+/* ������������������������?*/
 .navbar {
     -webkit-app-region: drag;
     margin-top: 0;
@@ -1116,7 +1119,7 @@ body {
     font-weight: 500;
 }
 
-/* ===== 配色方案选择�?===== */
+/* ===== 配色方案选择�?===== */
 .accent-picker {
     display: flex;
     gap: var(--space-3);
@@ -1184,7 +1187,7 @@ body {
 
 /* 设置页面间距调整 */
 
-/* ===== 设置�?Toggle 开�?===== */
+/* ===== 设置�?Toggle 开�?===== */
 .settings-toggle-row {
     display: flex;
     align-items: center;
@@ -1244,7 +1247,7 @@ body {
     font-size: 24px;
 }
 
-/* ===== UX 模式选择�?===== */
+/* ===== UX 模式选择�?===== */
 .ux-mode-toggle {
     display: flex;
     gap: var(--space-3);
@@ -1290,7 +1293,7 @@ body {
 
 
 /* ================================================================
-   RESPONSIVE �� Small screens
+   RESPONSIVE �� Small screens
    ================================================================ */
 @media (max-width: 900px) {
     .main-content {
