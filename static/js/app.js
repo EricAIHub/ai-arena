@@ -128,6 +128,16 @@ const App = {
             // 初始化
             accentPicker.querySelector(`[data-accent="${ThemeManager.accent}"]`)?.classList.add('active');
         }
+
+        // 监听主题变化，更新 Logo 渐变
+        document.addEventListener('theme-changed', () => {
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                logo.style.background = 'var(--gradient-primary)';
+                logo.style.webkitBackgroundClip = 'text';
+                logo.style.webkitTextFillColor = 'transparent';
+            }
+        });
     },
 
     navigateTo(page) {

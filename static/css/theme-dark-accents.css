@@ -7,6 +7,7 @@
     --color-primary-hover: #818cf8;
     --color-primary-glow: rgba(99, 102, 241, 0.15);
     --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+    --gradient-primary-hov: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c4b5fd 100%);
 }
 
 /* ===== 暗色模式 + 紫罗兰（豪华） ===== */
@@ -16,6 +17,7 @@
     --color-primary-hover: #a78bfa;
     --color-primary-glow: rgba(139, 92, 246, 0.15);
     --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
+    --gradient-primary-hov: linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #d8b4fe 100%);
     --shadow-glow: 0 0 25px rgba(139, 92, 246, 0.2);
     --shadow-glow-lg: 0 0 35px rgba(139, 92, 246, 0.3);
     --color-bg: #09090b;
@@ -58,23 +60,23 @@
 }
 
 [data-mode="dark"][data-accent="deluxe"] .btn-primary {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+    background: var(--gradient-primary);
     box-shadow:
         0 1px 2px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.12),
-        0 0 25px rgba(139, 92, 246, 0.2);
+        0 0 25px var(--color-primary-glow);
 }
 [data-mode="dark"][data-accent="deluxe"] .btn-primary:hover {
     box-shadow:
         0 1px 2px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.18),
-        0 0 40px rgba(139, 92, 246, 0.35);
+        0 0 40px var(--color-primary-glow);
 }
 
 [data-mode="dark"][data-accent="deluxe"] .input:focus {
     box-shadow:
-        0 0 0 3px rgba(139, 92, 246, 0.15),
-        0 0 25px rgba(139, 92, 246, 0.1);
+        0 0 0 3px var(--color-primary-glow),
+        0 0 25px var(--color-primary-glow);
 }
 
 [data-mode="dark"][data-accent="deluxe"] .scenario-card[data-scenario="werewolf"]::before { background: linear-gradient(90deg, #ef4444, #f97316); }
@@ -91,6 +93,7 @@
     --color-primary-hover: #e0a880;
     --color-primary-glow: rgba(212, 149, 107, 0.15);
     --gradient-primary: linear-gradient(135deg, #d4956b 0%, #e8b898 50%, #f0c8a8 100%);
+    --gradient-primary-hov: linear-gradient(135deg, #e0a880 0%, #f0c8a8 50%, #f8d8c0 100%);
     --shadow-glow: 0 0 20px rgba(212, 149, 107, 0.12);
     --color-bg: #0e0c0a;
     --color-bg-secondary: #151210;
@@ -124,10 +127,10 @@
 }
 
 [data-mode="dark"][data-accent="soft"] .btn-primary {
-    background: linear-gradient(135deg, #d4956b 0%, #e8b898 100%);
+    background: var(--gradient-primary);
     color: #1a1410;
 }
 
 [data-mode="dark"][data-accent="soft"] .input:focus {
-    box-shadow: 0 0 0 3px rgba(212, 149, 107, 0.12), 0 0 20px rgba(212, 149, 107, 0.06);
+    box-shadow: 0 0 0 3px var(--color-primary-glow), 0 0 20px var(--color-primary-glow);
 }
