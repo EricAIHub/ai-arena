@@ -47,12 +47,16 @@ const App = {
     },
 
     bindNavigation() {
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const page = btn.dataset.page;
-                this.navigateTo(page);
+        // 事件委托：绑定到 navbar-menu 容器，避免元素替换导致失效
+        const menu = document.querySelector('.navbar-menu');
+        if (menu) {
+            menu.addEventListener('click', (e) => {
+                const btn = e.target.closest('.nav-btn');
+                if (btn && btn.dataset.page) {
+                    this.navigateTo(btn.dataset.page);
+                }
             });
-        });
+        }
     },
 
     initSettings() {
@@ -128,6 +132,8 @@ const App = {
 
     navigateTo(page) {
         if (page === this.currentPage) return;
+        if (this._navigating) return;
+        this._navigating = true;
 
         // 更新导航按钮状态
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -138,44 +144,38 @@ const App = {
         const nextPageEl = document.getElementById(`page-${page}`);
 
         if (!currentPageEl || !nextPageEl) {
-            // fallback：直接切换
             document.querySelectorAll('.page').forEach(p => {
                 p.classList.toggle('active', p.id === `page-${page}`);
             });
             this.currentPage = page;
+            this._navigating = false;
             return;
         }
 
-        // 标记正在切换，防止重复触发
-        if (this._navigating) return;
-        this._navigating = true;
+        // 简单可靠方案：先隐藏旧页面，再显示新页面
+        currentPageEl.classList.remove('active');
+        currentPageEl.style.display = 'none';
+        currentPageEl.style.opacity = '';
+        currentPageEl.style.transform = '';
 
-        // 先 exit 动画，再切换
-        currentPageEl.classList.add('page-exit');
+        nextPageEl.classList.add('active');
+        nextPageEl.style.display = 'block';
+        nextPageEl.style.opacity = '0';
+        nextPageEl.style.transform = 'translateY(12px)';
 
-        const doSwitch = () => {
-            // 清理旧页面
-            currentPageEl.classList.remove('active', 'page-exit');
-            currentPageEl.style.opacity = '';
-            // 显示新页面
-            nextPageEl.classList.add('active', 'page-enter');
-            // 清理入场动画类
-            setTimeout(() => {
-                nextPageEl.classList.remove('page-enter');
-                this._navigating = false;
-            }, 350);
-            this.currentPage = page;
-        };
+        // 强制回流后播放入场动画
+        void nextPageEl.offsetWidth;
+        nextPageEl.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        nextPageEl.style.opacity = '1';
+        nextPageEl.style.transform = 'translateY(0)';
 
-        // 监听动画结束，250ms 兜底确保切换
-        let switched = false;
-        const safeSwitch = () => {
-            if (switched) return;
-            switched = true;
-            doSwitch();
-        };
-        currentPageEl.addEventListener('animationend', safeSwitch, { once: true });
-        setTimeout(safeSwitch, 250); // 兜底
+        setTimeout(() => {
+            nextPageEl.style.transition = '';
+            nextPageEl.style.transform = '';
+            this._navigating = false;
+        }, 280);
+
+        this.currentPage = page;
     },
 };
 

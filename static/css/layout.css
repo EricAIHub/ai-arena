@@ -989,10 +989,9 @@
     pointer-events: none;
 }
 
-/* 导航栏需要在标题栏下方，但也要允许拖拽 */
+/* 导航栏样式（仅 Electron 启用 drag） */
 .navbar {
     margin-top: 0;
-    -webkit-app-region: drag;
 }
 
 /* 导航栏内的按钮需要可点击，不被拖拽拦截 */
