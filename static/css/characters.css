@@ -1,0 +1,331 @@
+/* ===== AI Arena — 角色头像系统 ===== */
+/* 为每个角色提供精致的头像容器 + 背景色 + 边框光效 */
+
+/* ─── 基础头像容器 ─── */
+.char-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    position: relative;
+    overflow: hidden;
+    /* 玻璃拟态底板 */
+    background: linear-gradient(145deg, rgba(30, 30, 40, 0.9), rgba(20, 20, 30, 0.7));
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* ─── 角色光环（旋转锥形渐变环） ─── */
+.char-avatar::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        var(--char-color, var(--color-primary, #6366f1)) 25%,
+        transparent 50%,
+        var(--char-color, var(--color-primary, #6366f1)) 75%,
+        transparent 100%
+    );
+    opacity: 0.4;
+    animation: charRingRotate 6s linear infinite;
+    z-index: -1;
+}
+
+@keyframes charRingRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ─── 角色背景光晕 ─── */
+.char-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--char-color, var(--color-primary, #6366f1)) 0%, transparent 70%);
+    opacity: 0.15;
+    z-index: -1;
+}
+
+/* ─── 小尺寸变体 ─── */
+.char-avatar-sm {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+}
+.char-avatar-sm::before { inset: -1px; }
+.char-avatar-sm::after { inset: 3px; }
+
+.char-avatar-xs {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+}
+.char-avatar-xs::before { inset: -1px; }
+.char-avatar-xs::after { inset: 2px; }
+
+/* ============================================================
+   角色类型样式 — 每个角色独特的主题色和微调
+   ============================================================ */
+
+/* 战士 ⚔️ — 红色 */
+.char-warrior { --char-color: #ef4444; }
+.char-warrior .char-avatar,
+.char-warrior.char-avatar {
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* 法师 🧙 — 紫色 */
+.char-mage { --char-color: #8b5cf6; }
+.char-mage .char-avatar,
+.char-mage.char-avatar {
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* 侦探 🔍 — 蓝色 */
+.char-detective { --char-color: #3b82f6; }
+.char-detective .char-avatar,
+.char-detective.char-avatar {
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* 忍者 🥷 — 暗灰（更隐蔽） */
+.char-ninja { --char-color: #6b7280; }
+.char-ninja .char-avatar,
+.char-ninja.char-avatar {
+    border-color: rgba(107, 114, 128, 0.3);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* 海盗 🏴‍☠️ — 琥珀色 */
+.char-pirate { --char-color: #f59e0b; }
+.char-pirate .char-avatar,
+.char-pirate.char-avatar {
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* 机器人 🤖 — 青色（科技感边框） */
+.char-robot { --char-color: #06b6d4; }
+.char-robot .char-avatar,
+.char-robot.char-avatar {
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(6, 182, 212, 0.1),
+        0 0 12px rgba(6, 182, 212, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 幽灵 👻 — 淡紫（半透明） */
+.char-ghost { --char-color: #a78bfa; }
+.char-ghost .char-avatar,
+.char-ghost.char-avatar {
+    opacity: 0.8;
+    border-color: rgba(167, 139, 250, 0.2);
+}
+
+/* 骑士 🛡️ — 绿色 */
+.char-knight { --char-color: #22c55e; }
+.char-knight .char-avatar,
+.char-knight.char-avatar {
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+/* 巫师 🪄 — 粉色 */
+.char-wizard { --char-color: #ec4899; }
+.char-wizard .char-avatar,
+.char-wizard.char-avatar {
+    border-color: rgba(236, 72, 153, 0.3);
+}
+
+/* 刺客 🗡️ — 深红 */
+.char-assassin { --char-color: #dc2626; }
+.char-assassin .char-avatar,
+.char-assassin.char-avatar {
+    border-color: rgba(220, 38, 38, 0.3);
+    box-shadow:
+        inset 0 1px 0 rgba(220, 38, 38, 0.08),
+        0 4px 16px rgba(220, 38, 38, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   角色状态 — 配合 arena.js 的 class 切换
+   ============================================================ */
+
+/* 存活 — 呼吸光效 */
+.char-alive .char-avatar::before {
+    opacity: 0.4;
+    animation: charRingRotate 6s linear infinite;
+}
+
+/* 发言 — 脉冲发光 */
+.char-speaking .char-avatar {
+    transform: scale(1.1);
+    box-shadow:
+        0 0 20px var(--char-color, var(--color-primary, #6366f1)),
+        0 0 40px rgba(99, 102, 241, 0.2);
+    transition: all 0.3s ease;
+}
+.char-speaking .char-avatar::before {
+    opacity: 0.7;
+}
+
+/* 思考 — 旋转加速 + 黄色边框 */
+.char-thinking .char-avatar {
+    border-color: rgba(234, 179, 8, 0.5);
+}
+.char-thinking .char-avatar::before {
+    animation: charRingRotate 2s linear infinite;
+    opacity: 0.6;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        rgba(234, 179, 8, 0.6) 25%,
+        transparent 50%,
+        rgba(234, 179, 8, 0.6) 75%,
+        transparent 100%
+    );
+}
+
+/* 淘汰 — 灰度 + 裂纹 */
+.char-dead .char-avatar {
+    filter: grayscale(0.8) brightness(0.5);
+    transform: scale(0.95);
+}
+.char-dead .char-avatar::after {
+    content: '💀';
+    position: absolute;
+    font-size: 20px;
+    z-index: 10;
+    opacity: 1;
+    filter: none;
+    background: none;
+}
+
+/* 夜晚隐藏 — 暗化 */
+.char-night-hidden .char-avatar {
+    filter: brightness(0.15);
+}
+.char-night-hidden .char-avatar::after {
+    content: '🙈';
+    position: absolute;
+    font-size: 20px;
+    filter: brightness(1.5);
+    z-index: 10;
+    opacity: 1;
+    background: none;
+}
+
+/* 被查验 — 金光闪烁 */
+.char-revealed .char-avatar {
+    box-shadow: 0 0 25px rgba(234, 179, 8, 0.5);
+    animation: revealFlash 0.5s ease-out;
+}
+
+@keyframes revealFlash {
+    0% { filter: brightness(2); }
+    100% { filter: brightness(1); }
+}
+
+/* 投票中 — 指向手势 */
+.char-voting .char-avatar::after {
+    content: '👉';
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    font-size: 16px;
+    animation: pointFinger 0.5s ease-in-out infinite alternate;
+    z-index: 10;
+    opacity: 1;
+    background: none;
+}
+
+@keyframes pointFinger {
+    from { transform: rotate(-10deg); }
+    to { transform: rotate(10deg); }
+}
+
+/* 已投票 — 勾选标记 */
+.char-voted .char-avatar::after {
+    content: '✅';
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    font-size: 16px;
+    animation: none;
+    z-index: 10;
+    opacity: 1;
+    background: none;
+}
+
+/* 被投票目标 — 脉冲缩放 */
+.char-targeted .char-avatar {
+    animation: targetedPulse 0.5s ease-in-out 3;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+@keyframes targetedPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+/* 狼人激活状态 */
+.char-werewolf-active .char-avatar {
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+/* 夜间揭示 */
+.char-night-revealed .char-avatar {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+/* ============================================================
+   兼容层 — 让现有 seat-avatar 自动获得角色系统效果
+   当 seat 元素有 char-{type} class 时，seat-avatar 自动应用样式
+   ============================================================ */
+
+/* seat 内的 seat-avatar 复用角色光环 */
+.seat[class*="char-"] .seat-avatar {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.seat[class*="char-"] .seat-avatar::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        var(--char-color, var(--color-primary, #6366f1)) 25%,
+        transparent 50%,
+        var(--char-color, var(--color-primary, #6366f1)) 75%,
+        transparent 100%
+    );
+    opacity: 0.3;
+    animation: charRingRotate 6s linear infinite;
+    z-index: 0;
+}
+
+.seat[class*="char-"] .seat-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--char-color, var(--color-primary, #6366f1)) 0%, transparent 70%);
+    opacity: 0.12;
+    z-index: 0;
+}

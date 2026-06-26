@@ -13,6 +13,41 @@ const Arena = {
     _playerSeats: {},
     _narratorTimeout: null,
 
+    // 角色 emoji → CSS class 映射表
+    _emojiCharMap: {
+        '⚔️': 'char-warrior', '🗡️': 'char-assassin', '🧙': 'char-mage',
+        '🔍': 'char-detective', '🥷': 'char-ninja', '🏴‍☠️': 'char-pirate',
+        '🤖': 'char-robot', '👻': 'char-ghost', '🛡️': 'char-knight',
+        '🪄': 'char-wizard', '💀': 'char-assassin', '🔮': 'char-mage',
+        '🎯': 'char-detective', '⚔': 'char-warrior', '🛡': 'char-knight',
+    },
+
+    /**
+     * 根据玩家数据推断角色 CSS class
+     */
+    _getCharClass(player) {
+        if (!player) return '';
+        // 1) 优先用 character_id
+        if (player.character_id && CharacterModels?.models?.[player.character_id]) {
+            return `char-${player.character_id}`;
+        }
+        // 2) 通过 emoji 反查
+        if (player.emoji && this._emojiCharMap[player.emoji]) {
+            return this._emojiCharMap[player.emoji];
+        }
+        // 3) 通过 color 近似匹配
+        const colorMap = {
+            '#ef4444': 'char-warrior', '#8b5cf6': 'char-mage', '#3b82f6': 'char-detective',
+            '#4b5563': 'char-ninja', '#6b7280': 'char-ninja', '#f59e0b': 'char-pirate',
+            '#06b6d4': 'char-robot', '#a78bfa': 'char-ghost', '#22c55e': 'char-knight',
+            '#ec4899': 'char-wizard', '#dc2626': 'char-assassin',
+        };
+        if (player.color && colorMap[player.color.toLowerCase()]) {
+            return colorMap[player.color.toLowerCase()];
+        }
+        return '';
+    },
+
     init() {
         this.feedElement = document.getElementById('arena-feed');
         this.playersElement = document.getElementById('arena-players');
@@ -146,12 +181,13 @@ const Arena = {
         this._playerSeats = {};
 
         players.forEach((player, index) => {
+            const charClass = this._getCharClass(player);
             const seat = Helpers.createElement('div', {
-                className: 'seat alive',
+                className: `seat alive ${charClass}`,
                 'data-player-id': player.id,
             });
             seat.innerHTML = `
-                <div class="seat-avatar" style="border-color: ${player.color || 'var(--color-border)'};">
+                <div class="seat-avatar" style="--char-color: ${player.color || 'var(--color-primary)'}; border-color: ${player.color || 'var(--color-border)'};">
                     ${player.emoji || '🤖'}
                 </div>
                 <div class="seat-name">${Helpers.escapeHtml(player.name)}</div>
@@ -167,8 +203,9 @@ const Arena = {
     _renderBottomPlayers(players) {
         this.playersElement.innerHTML = '';
         players.forEach(player => {
+            const charClass = this._getCharClass(player);
             const card = Helpers.createElement('div', {
-                className: 'player-card alive',
+                className: `player-card alive ${charClass}`,
                 'data-player-id': player.id,
             });
             card.innerHTML = `
