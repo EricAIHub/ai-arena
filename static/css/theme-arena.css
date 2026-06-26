@@ -1,0 +1,150 @@
+/* AI Arena — Theme: Arena-specific effects & polish v2.0 */
+
+/* ================================================================
+   FEED EVENT ANIMATIONS — staggered entrance
+   ================================================================ */
+@keyframes deathAppear {
+    0%   { opacity: 0; transform: translateX(-8px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes voteAppear {
+    0%   { opacity: 0; transform: translateX(-8px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes gameOverAppear {
+    0%   { opacity: 0; transform: scale(0.92); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.feed-event.event-speech      { animation-name: messageSlide; }
+.feed-event.event-system       { animation-name: feedSlideUp; }
+.feed-event.event-death        { animation-name: deathAppear; }
+.feed-event.event-vote         { animation-name: voteAppear; }
+.feed-event.event-game_over    { animation-name: gameOverAppear; }
+
+/* ================================================================
+   PLAYER AVATAR PULSE — living glow
+   ================================================================ */
+.player-status:not(.dead) .player-avatar-sm {
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Dead X mark */
+.player-status.dead::after {
+    content: '✕';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    color: var(--color-danger);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* ================================================================
+   SCENARIO CARD INTERACTION
+   ================================================================ */
+.scenario-card.unavailable {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(0.6);
+}
+
+/* ================================================================
+   ADD MODEL BUTTON (dashed — glass style)
+   ================================================================ */
+#btn-add-model {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    background: rgba(17, 17, 24, 0.4);
+    color: var(--color-text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+}
+#btn-add-model:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    color: var(--color-text-secondary);
+    background: rgba(99, 102, 241, 0.04);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.06);
+}
+
+/* ================================================================
+   AMBIENT EFFECTS — subtle floating orbs (CSS only)
+   ================================================================ */
+@keyframes orbFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%      { transform: translate(30px, -20px) scale(1.05); }
+    50%      { transform: translate(-10px, 15px) scale(0.98); }
+    75%      { transform: translate(-25px, -10px) scale(1.02); }
+}
+@keyframes orbFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(-20px, 25px) scale(1.03); }
+    66%      { transform: translate(15px, -15px) scale(0.97); }
+}
+
+/* ================================================================
+   GLASS MORPHISM HELPERS
+   ================================================================ */
+.glass {
+    background: linear-gradient(145deg, rgba(17, 17, 24, 0.8), rgba(25, 25, 32, 0.6));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.glass-subtle {
+    background: rgba(14, 14, 20, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+}
+
+/* ================================================================
+   FOCUS RING — consistent across all interactive elements
+   ================================================================ */
+:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 2px rgba(6, 6, 10, 1),
+        0 0 0 4px rgba(99, 102, 241, 0.3);
+}
+
+/* ================================================================
+   GRADIENT TEXT UTILITY
+   ================================================================ */
+.gradient-text {
+    background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ================================================================
+   TOOLTIP — glass style
+   ================================================================ */
+[title] {
+    position: relative;
+}
+
+/* ================================================================
+   SKELETON LOADING — shimmer effect
+   ================================================================ */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.03) 25%,
+        rgba(255, 255, 255, 0.06) 50%,
+        rgba(255, 255, 255, 0.03) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+}

@@ -1,0 +1,67 @@
+# AI Arena — Git Ignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.spec.bak
+*.egg
+.eggs/
+venv/
+.venv/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Electron Builder 输出
+release/
+dist/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# 数据文件（用户配置，不提交）
+data/config.json
+data/arena.log
+data/game_state.json
+data/game_snapshot.json
+
+# 日志
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 临时文件
+_*.py
+*.bak
+*.tmp
+
+# 打包产物
+*.exe
+*.msi
+*.dmg
+*.AppImage
+*.blockmap
+
+# 调试
+BACKEND_FIXED.txt
+CODE_REVIEW_REPORT.md
+UX_REVIEW_V2_DONE.txt

@@ -1,0 +1,35 @@
+/* AI Arena — Soft Theme (柔和版) */
+
+[data-theme="soft"] {
+    --color-bg: #121214;
+    --color-bg-secondary: #1a1a1e;
+    --color-bg-tertiary: #222228;
+    --color-bg-elevated: #2a2a32;
+    --color-text: #e8e8ec;
+    --color-text-secondary: #9898a8;
+    --color-text-muted: #68687a;
+    --color-border: #32323e;
+    --color-border-focus: #50506a;
+    --color-primary: #c084fc;
+    --color-primary-hover: #d8b4fe;
+    --color-primary-glow: rgba(192, 132, 252, 0.12);
+    --color-success: #86efac;
+    --color-warning: #fde68a;
+    --color-danger: #fca5a5;
+    --shadow-glow: 0 0 20px rgba(192, 132, 252, 0.12);
+}
+
+/* Soft background — warm spots */
+[data-theme="soft"] body {
+    background: #121214;
+    background-image:
+        radial-gradient(ellipse at 20% 40%, rgba(192, 132, 252, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(251, 146, 60, 0.04) 0%, transparent 50%);
+}
+
+[data-theme="soft"] .navbar {
+    background: rgba(18, 18, 20, 0.7);
+}
+[data-theme="soft"] .navbar::before {
+    background: linear-gradient(90deg, transparent 10%, rgba(192, 132, 252, 0.2) 50%, transparent 90%);
+}

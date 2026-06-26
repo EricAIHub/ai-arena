@@ -1,0 +1,65 @@
+{
+  "name": "ai-arena",
+  "version": "0.2.0",
+  "description": "多 AI 对战平台",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "build:server": "pyinstaller ai-arena.spec --distpath dist --workpath build --clean -y",
+    "build:app": "electron-builder --win",
+    "build": "npm run build:server && npm run build:app",
+    "dist": "npm run build"
+  },
+  "author": "Eric",
+  "license": "MIT",
+  "build": {
+    "appId": "com.ai-arena.app",
+    "productName": "AI Arena",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "static/**/*",
+      "data/**/*",
+      "!src/**/*",
+      "!*.py",
+      "!*.bat",
+      "!*.spec",
+      "!*.pyw"
+    ],
+    "extraResources": [
+      {
+        "from": "dist/AI Arena Server",
+        "to": "server"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "static/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AI Arena",
+      "installerIcon": "static/icon.ico",
+      "uninstallerIcon": "static/icon.ico",
+      "installerHeaderIcon": "static/icon.ico",
+      "license": "LICENSE"
+    }
+  },
+  "devDependencies": {
+    "electron": "^42.5.0",
+    "electron-builder": "^24.13.3"
+  }
+}

@@ -1,0 +1,101 @@
+/* AI Arena — Design Tokens v2.0 — "Stunning" */
+
+:root {
+    /* ===== Surface palette (richer, deeper) ===== */
+    --color-bg:              #06060a;
+    --color-bg-secondary:    #0d0d12;
+    --color-bg-tertiary:     #111118;
+    --color-bg-elevated:     #16161e;
+    --color-bg-input:        #1a1a22;
+
+    /* ===== Text palette ===== */
+    --color-text:            #f0f0f5;
+    --color-text-secondary:  #9d9db0;
+    --color-text-muted:      #6b6b80;
+    --color-text-disabled:   #484860;
+
+    /* ===== Border ===== */
+    --color-border:          rgba(255, 255, 255, 0.06);
+    --color-border-hover:    rgba(255, 255, 255, 0.12);
+    --color-border-focus:    #6366f1;
+
+    /* ===== Brand — indigo/violet dual gradient ===== */
+    --color-primary:         #6366f1;
+    --color-primary-end:     #8b5cf6;
+    --color-primary-hover:   #818cf8;
+    --color-primary-glow:    rgba(99, 102, 241, 0.15);
+    --gradient-primary:      linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+    --gradient-primary-hov:  linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c4b5fd 100%);
+
+    /* ===== Semantic ===== */
+    --color-success:         #22c55e;
+    --color-success-bg:      rgba(34, 197, 94, 0.12);
+    --color-warning:         #eab308;
+    --color-warning-bg:      rgba(234, 179, 8, 0.12);
+    --color-danger:          #ef4444;
+    --color-danger-bg:       rgba(239, 68, 68, 0.12);
+    --color-info:            #3b82f6;
+    --color-info-bg:         rgba(59, 130, 246, 0.12);
+
+    /* ===== Scenario accent colors ===== */
+    --accent-werewolf:       239, 68, 68;
+    --accent-debate:         59, 130, 246;
+    --accent-code:           34, 197, 94;
+    --accent-quiz:           234, 179, 8;
+    --accent-story:          168, 85, 247;
+    --accent-custom:         6, 182, 212;
+
+    /* ===== Typography ===== */
+    --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --font-mono:  'JetBrains Mono', 'Fira Code', monospace;
+
+    --text-xs:    0.75rem;
+    --text-sm:    0.875rem;
+    --text-base:  1rem;
+    --text-lg:    1.125rem;
+    --text-xl:    1.25rem;
+    --text-2xl:   1.5rem;
+    --text-3xl:   1.875rem;
+
+    /* ===== Spacing (4px grid) ===== */
+    --space-1:  0.25rem;
+    --space-2:  0.5rem;
+    --space-3:  0.75rem;
+    --space-4:  1rem;
+    --space-5:  1.25rem;
+    --space-6:  1.5rem;
+    --space-8:  2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+
+    /* ===== Radius ===== */
+    --radius-sm:   8px;
+    --radius-md:   12px;
+    --radius-lg:   16px;
+    --radius-xl:   20px;
+    --radius-full: 9999px;
+
+    /* ===== Shadows — richer with glow ===== */
+    --shadow-sm:      0 1px 3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.02);
+    --shadow-md:      0 8px 30px rgba(0,0,0,0.4), 0 0 1px rgba(255,255,255,0.04);
+    --shadow-lg:      0 12px 40px rgba(0,0,0,0.5), 0 0 60px rgba(99,102,241,0.08);
+    --shadow-glow:    0 0 20px rgba(99,102,241,0.18), 0 0 60px rgba(99,102,241,0.06);
+    --shadow-glow-lg: 0 0 30px rgba(99,102,241,0.25), 0 0 80px rgba(99,102,241,0.10);
+
+    /* ===== Transitions ===== */
+    --transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base:   200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow:   300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ===== Z-index ===== */
+    --z-base:      0;
+    --z-elevated:  10;
+    --z-dropdown:  100;
+    --z-modal:     1000;
+    --z-toast:     2000;
+
+    /* ===== Navbar ===== */
+    --navbar-height: 56px;
+    --titlebar-height: 32px;
+}

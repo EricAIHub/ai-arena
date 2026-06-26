@@ -1,0 +1,643 @@
+/* ===== 围桌对战布局 ===== */
+
+.arena-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--navbar-height, 60px) - 20px);
+    gap: var(--space-3, 12px);
+}
+
+/* 头部 */
+.arena-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3, 12px) var(--space-4, 16px);
+    background: var(--color-bg-secondary, #1e1e2e);
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+    flex-shrink: 0;
+}
+
+.arena-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+}
+
+.arena-title h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.arena-phase {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-primary, #6366f1);
+    padding: 4px 12px;
+    background: var(--color-primary-glow, rgba(99,102,241,0.1));
+    border-radius: var(--radius-full, 999px);
+}
+
+.arena-controls {
+    display: flex;
+    gap: var(--space-2, 8px);
+}
+
+/* ===== 围桌区域 ===== */
+.arena-table {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    background: radial-gradient(ellipse at center, rgba(99,102,241,0.05) 0%, transparent 70%);
+    border-radius: var(--radius-lg, 12px);
+    border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+    overflow: hidden;
+}
+
+/* 桌面纹理 */
+.arena-table::before {
+    content: '';
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(99,102,241,0.03) 0%, transparent 70%);
+    border: 1px solid rgba(99,102,241,0.05);
+    pointer-events: none;
+}
+
+/* 中央区域 */
+.arena-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.arena-center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2, 8px);
+}
+
+.arena-center-icon {
+    font-size: 36px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.arena-center-text {
+    font-size: 14px;
+    color: var(--color-text-muted, #94a3b8);
+    font-weight: 500;
+    max-width: 200px;
+}
+
+/* ===== 玩家座位 ===== */
+.arena-seats {
+    position: absolute;
+    inset: 0;
+}
+
+.seat {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+/* 座位布局 — 6人圆桌排列 */
+.seat:nth-child(1) { top: 5%; left: 50%; transform: translateX(-50%); }
+.seat:nth-child(2) { top: 25%; right: 5%; }
+.seat:nth-child(3) { bottom: 25%; right: 5%; }
+.seat:nth-child(4) { bottom: 5%; left: 50%; transform: translateX(-50%); }
+.seat:nth-child(5) { bottom: 25%; left: 5%; }
+.seat:nth-child(6) { top: 25%; left: 5%; }
+
+/* 7-10人扩展位置 */
+.seat:nth-child(7) { top: 10%; left: 25%; }
+.seat:nth-child(8) { top: 10%; right: 25%; }
+.seat:nth-child(9) { bottom: 10%; left: 25%; }
+.seat:nth-child(10) { bottom: 10%; right: 25%; }
+
+/* 玩家头像卡 */
+.seat-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-lg, 12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    background: var(--color-bg-elevated, #252540);
+    border: 2px solid var(--color-border, rgba(255,255,255,0.08));
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+/* 存活状态 */
+.seat.alive .seat-avatar {
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
+}
+
+/* 淘汰状态 */
+.seat.dead {
+    opacity: 0.4;
+    filter: grayscale(0.8);
+}
+.seat.dead .seat-avatar {
+    border-color: rgba(239, 68, 68, 0.3);
+    box-shadow: none;
+}
+.seat.dead::after {
+    content: '💀';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 18px;
+}
+
+/* 当前发言者高亮 */
+.seat.speaking .seat-avatar {
+    border-color: var(--color-primary, #6366f1);
+    box-shadow: 0 0 20px var(--color-primary-glow, rgba(99,102,241,0.3)), 0 0 40px var(--color-primary-glow, rgba(99,102,241,0.3));
+    animation: speakPulse 1.5s ease-in-out infinite;
+    transform: scale(1.1);
+}
+
+@keyframes speakPulse {
+    0%, 100% { box-shadow: 0 0 20px var(--color-primary-glow, rgba(99,102,241,0.3)); }
+    50% { box-shadow: 0 0 30px var(--color-primary-glow, rgba(99,102,241,0.4)), 0 0 60px var(--color-primary-glow, rgba(99,102,241,0.2)); }
+}
+
+/* 思考状态 */
+.seat.thinking .seat-avatar {
+    border-color: rgba(234, 179, 8, 0.5);
+    animation: thinkPulse 1s ease-in-out infinite;
+}
+
+@keyframes thinkPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(234, 179, 8, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(234, 179, 8, 0.4); }
+}
+
+/* 玩家名字 */
+.seat-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text, #e2e8f0);
+    text-align: center;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 角色标签（狼人杀等有角色的场景） */
+.seat-role {
+    font-size: 10px;
+    color: var(--color-text-muted, #94a3b8);
+    background: var(--color-bg-tertiary, #2a2a45);
+    padding: 1px 6px;
+    border-radius: var(--radius-full, 999px);
+}
+
+/* ===== 发言气泡区域 ===== */
+.arena-speech-area {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+    border-radius: var(--radius-md, 8px);
+    background: var(--color-bg-secondary, #1e1e2e);
+    flex-shrink: 0;
+}
+
+.speech-feed {
+    padding: var(--space-3, 12px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+}
+
+/* 发言气泡 */
+.speech-bubble {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3, 12px);
+    padding: var(--space-3, 12px);
+    border-radius: var(--radius-md, 8px);
+    background: var(--color-bg-elevated, #252540);
+    border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+    animation: bubblePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    position: relative;
+}
+
+@keyframes bubblePop {
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 气泡箭头 */
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 12px;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 8px solid var(--color-border, rgba(255,255,255,0.08));
+}
+
+.speech-bubble-avatar {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.speech-bubble-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.speech-bubble-name {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.speech-bubble-text {
+    font-size: 14px;
+    color: var(--color-text-secondary, #cbd5e1);
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.speech-bubble-time {
+    font-size: 10px;
+    color: var(--color-text-disabled, #64748b);
+    margin-top: 2px;
+}
+
+/* 系统消息气泡 */
+.speech-bubble.system {
+    background: var(--color-primary-glow, rgba(99,102,241,0.1));
+    border-color: rgba(99, 102, 241, 0.15);
+    justify-content: center;
+    text-align: center;
+}
+
+.speech-bubble.system::before { display: none; }
+
+/* 投票消息 */
+.speech-bubble.vote {
+    border-left: 3px solid rgba(234, 179, 8, 0.5);
+}
+
+/* 淘汰消息 */
+.speech-bubble.death {
+    border-left: 3px solid rgba(239, 68, 68, 0.5);
+    animation: deathBubble 0.5s ease both;
+}
+
+@keyframes deathBubble {
+    0% { opacity: 0; transform: scale(0.8); filter: brightness(2); }
+    50% { transform: scale(1.05); filter: brightness(1.5); }
+    100% { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+
+/* 游戏结束 */
+.speech-bubble.game-over {
+    background: linear-gradient(135deg, var(--color-primary-glow, rgba(99,102,241,0.1)), rgba(139, 92, 246, 0.1));
+    border-color: var(--color-primary, #6366f1);
+    text-align: center;
+    justify-content: center;
+    animation: gameOverPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes gameOverPop {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* 思考气泡 */
+.speech-bubble.thinking-bubble {
+    opacity: 0.7;
+    border-left: 3px solid rgba(234, 179, 8, 0.4);
+}
+
+.thinking-dots span {
+    display: inline-block;
+    animation: dotBounce 1.4s ease-in-out infinite;
+    font-size: 18px;
+    color: var(--color-primary, #6366f1);
+}
+.thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotBounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+}
+
+/* 再来一局按钮 */
+.arena-play-again {
+    display: none;
+    margin-top: var(--space-3, 12px);
+    width: 100%;
+    padding: var(--space-3, 12px);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: var(--radius-md, 8px);
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    animation: playAgainPulse 2s ease-in-out infinite;
+}
+
+.arena-play-again.visible {
+    display: block;
+}
+
+@keyframes playAgainPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--color-primary-glow, rgba(99,102,241,0.3)); }
+    50% { transform: scale(1.02); box-shadow: 0 0 30px var(--color-primary-glow, rgba(99,102,241,0.4)); }
+}
+
+/* ===== 底部状态栏 ===== */
+.arena-players {
+    display: flex;
+    gap: var(--space-2, 8px);
+    padding: var(--space-2, 8px);
+    background: var(--color-bg-secondary, #1e1e2e);
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+    overflow-x: auto;
+    flex-shrink: 0;
+}
+
+.player-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    padding: var(--space-2, 8px) var(--space-3, 12px);
+    border-radius: var(--radius-sm, 4px);
+    background: var(--color-bg-elevated, #252540);
+    border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+    font-size: 12px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.player-card .player-emoji { font-size: 16px; }
+.player-card .player-name { font-weight: 600; }
+.player-card .player-status { font-size: 10px; }
+
+.player-card.alive .player-status { color: var(--color-success, #22c55e); }
+.player-card.dead {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+.player-card.dead .player-status { color: var(--color-danger, #ef4444); }
+
+/* 响应式：小屏幕 */
+@media (max-height: 700px) {
+    .arena-table { min-height: 200px; }
+    .seat-avatar { width: 48px; height: 48px; font-size: 24px; }
+    .seat-name { font-size: 10px; }
+    .arena-speech-area { max-height: 150px; }
+}
+
+/* 响应式：窄屏 */
+@media (max-width: 600px) {
+    .seat-avatar { width: 44px; height: 44px; font-size: 22px; }
+    .seat-name { font-size: 10px; max-width: 60px; }
+    .arena-header { flex-wrap: wrap; gap: 8px; }
+    .arena-phase { order: 3; width: 100%; text-align: center; }
+}
+
+/* ===== 旁白条 ===== */
+.arena-narrator {
+    text-align: center;
+    padding: var(--space-3, 12px);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--color-text-secondary, #cbd5e1);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, transparent, var(--color-primary-glow, rgba(99,102,241,0.05)), transparent);
+    border-radius: var(--radius-md, 8px);
+    position: relative;
+    overflow: hidden;
+}
+
+.arena-narrator::before,
+.arena-narrator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-primary, #6366f1), transparent);
+    opacity: 0.3;
+}
+.arena-narrator::before { left: 10%; }
+.arena-narrator::after { right: 10%; }
+
+.narrator-text {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--color-primary, #6366f1);
+    animation: blinkCursor 0.75s step-end infinite;
+    max-width: 100%;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { border-right-color: var(--color-primary, #6366f1); }
+    50% { border-right-color: transparent; }
+}
+
+/* ===== 角色动作状态 ===== */
+
+/* 夜晚：非狼人玩家捂眼睛 */
+.seat.night-hidden .seat-avatar {
+    filter: brightness(0.3);
+    position: relative;
+}
+.seat.night-hidden .seat-avatar::after {
+    content: '🙈';
+    position: absolute;
+    font-size: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: brightness(1);
+}
+
+/* 夜晚：狼人红光 */
+.seat.werewolf-active .seat-avatar {
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.3), 0 0 32px rgba(239, 68, 68, 0.15);
+}
+
+/* 夜晚：被查验/被选中 — 短暂亮起 */
+.seat.revealed .seat-avatar {
+    border-color: rgba(234, 179, 8, 0.7);
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.4);
+    animation: revealFlash 1.5s ease-out both;
+}
+
+@keyframes revealFlash {
+    0% { filter: brightness(2); }
+    100% { filter: brightness(1); }
+}
+
+/* 投票：指人动画 */
+.seat.voting .seat-avatar {
+    position: relative;
+}
+.seat.voting .seat-avatar::after {
+    content: '👉';
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    font-size: 16px;
+    animation: pointFinger 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pointFinger {
+    from { transform: rotate(-10deg); }
+    to { transform: rotate(10deg); }
+}
+
+/* 投票：已完成投票 */
+.seat.voted .seat-avatar {
+    position: relative;
+}
+.seat.voted .seat-avatar::after {
+    content: '✅';
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    font-size: 16px;
+}
+
+/* 投票：被投目标闪烁 */
+.seat.targeted .seat-avatar {
+    animation: targetedPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes targetedPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(234, 179, 8, 0.2); border-color: rgba(234, 179, 8, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(234, 179, 8, 0.5); border-color: rgba(234, 179, 8, 0.7); }
+}
+
+/* ===== 浮动动画（复用） ===== */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+
+/* ===== 字幕旁白 ===== */
+.arena-narrator {
+    text-align: center;
+    padding: var(--space-3) var(--space-4);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(99,102,241,0.03), transparent);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(99,102,241,0.05);
+}
+.narrator-text {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--color-primary);
+    animation: blinkCursor 0.75s step-end infinite;
+}
+@keyframes blinkCursor {
+    50% { border-color: transparent; }
+}
+
+/* ===== 夜晚 — 捂眼睛 ===== */
+.seat.night-hidden .seat-avatar {
+    filter: brightness(0.3);
+}
+.seat.night-hidden .seat-avatar::after {
+    content: '\1F648'; /* see-no-evil monkey */
+    position: absolute;
+    font-size: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: none;
+}
+.seat.night-revealed .seat-avatar {
+    border-color: rgba(234, 179, 8, 0.6);
+    box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
+    animation: revealFlash 0.5s ease-out;
+}
+@keyframes revealFlash {
+    0% { filter: brightness(2); }
+    100% { filter: brightness(1); }
+}
+
+/* ===== 投票 — 指人 ===== */
+.seat.voting .seat-avatar::after {
+    content: '\1F449'; /* pointing finger */
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    font-size: 16px;
+    animation: pointFinger 0.5s ease-in-out infinite alternate;
+}
+@keyframes pointFinger {
+    from { transform: rotate(-10deg); }
+    to { transform: rotate(10deg); }
+}
+.seat.voted .seat-avatar::after {
+    content: '\2705'; /* check mark */
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    font-size: 16px;
+    animation: none;
+}
+.seat.targeted .seat-avatar {
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    animation: targetedPulse 0.5s ease-in-out 3;
+}
+@keyframes targetedPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ===== 角色选择下拉框 ===== */
+.character-select {
+    min-width: 120px;
+    background: var(--color-bg-input);
+    cursor: pointer;
+}

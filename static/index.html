@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Arena — 多 AI 对战平台</title>
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/animations.css">
+    <link rel="stylesheet" href="/static/css/theme-dark-accents.css">
+    <link rel="stylesheet" href="/static/css/theme-light.css">
+    <link rel="stylesheet" href="/static/css/spectator-mode.css">
+    <link rel="stylesheet" href="/static/css/arena-table.css">
+    <link rel="stylesheet" href="/static/css/scenes.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+    <script src="/static/js/utils/theme.js"></script>
+</head>
+<body>
+    <!-- 自定义标题栏拖拽区域 -->
+    <div class="custom-titlebar">
+        <div class="titlebar-drag"></div>
+    </div>
+
+    <div id="app">
+        <!-- 导航栏 -->
+        <header class="navbar">
+            <div class="navbar-brand">
+                <span class="logo">⚔️</span>
+                <h1>AI Arena</h1>
+            </div>
+            <nav class="navbar-menu">
+                <button class="nav-btn active" data-page="config">⚙️ 配置</button>
+                <button class="nav-btn" data-page="scenarios">🎯 场景</button>
+                <button class="nav-btn" data-page="arena">👀 观战</button>
+                <button class="nav-btn" data-page="settings">🎨 设置</button>
+                <div class="ws-status" data-status="connecting" id="ws-status" title="WebSocket 连接状态">
+                    <span class="ws-status-dot"></span>
+                    <span class="ws-status-text">连接中...</span>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 断线重连提示条 -->
+        <div class="ws-reconnect-bar" id="ws-reconnect-bar">
+            ⚡ 连接已断开，正在重连...
+        </div>
+
+        <!-- 页面容器 -->
+        <main class="main-content">
+            <!-- 配置页面 -->
+            <section id="page-config" class="page active">
+                <div class="page-header">
+                    <h2>AI 模型配置</h2>
+                    <p>支持所有 OpenAI 兼容 API</p>
+                </div>
+                <div class="config-content">
+                    <!-- 新手引导 -->
+                    <div id="onboarding-card" class="card" style="display:none; padding: var(--space-6); margin-bottom: var(--space-6); border: 1px solid var(--color-primary); background: var(--color-primary-glow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4);">
+                            <h3 style="margin: 0;">👋 欢迎来到 AI Arena！</h3>
+                            <button id="btn-close-onboarding" class="btn btn-sm" style="padding: 2px 8px; font-size: 16px;">✕</button>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+                            <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+                                <span style="font-size: 24px;">①</span>
+                                <div>
+                                    <strong>添加你的第一个 AI 模型</strong>
+                                    <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-top: 4px;">
+                                        推荐 DeepSeek（<a href="https://platform.deepseek.com" target="_blank" style="color: var(--color-primary);">注册</a>）
+                                        或通义千问（<a href="https://bailian.console.aliyun.com" target="_blank" style="color: var(--color-primary);">注册</a>），免费额度即可开始。
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+                                <span style="font-size: 24px;">②</span>
+                                <div>
+                                    <strong>选择场景开始游戏</strong>
+                                    <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-top: 4px;">
+                                        配置完成后，切换到「场景」标签，选择你想玩的场景。
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+                                <span style="font-size: 24px;">③</span>
+                                <div>
+                                    <strong>观战 AI 对战</strong>
+                                    <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-top: 4px;">
+                                        游戏开始后，切换到「观战」标签，观看 AI 之间的精彩对决！
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="model-list" class="model-list">
+                        <!-- 模型卡片由 JS 动态生成 -->
+                    </div>
+                    <button class="btn btn-secondary" id="btn-add-model">+ 添加模型</button>
+                </div>
+            </section>
+
+            <!-- 场景选择页面 -->
+            <section id="page-scenarios" class="page">
+                <div class="page-header">
+                    <h2>选择场景</h2>
+                    <p>选择一个游戏场景，开始 AI 对战</p>
+                </div>
+                <div id="scenario-grid" class="scenario-grid">
+                    <!-- 场景卡片由 JS 动态生成 -->
+                </div>
+            </section>
+
+            <!-- 观战面板 -->
+            <section id="page-arena" class="page">
+                <div class="arena-container">
+                    <!-- 游戏头部 -->
+                    <div class="arena-header">
+                        <div class="arena-title">
+                            <span id="arena-emoji">🏟️</span>
+                            <h2 id="arena-scenario-name">等待开始...</h2>
+                        </div>
+                        <div class="arena-phase" id="arena-phase"></div>
+                        <div class="arena-controls">
+                            <button class="btn btn-sm" id="btn-pause" disabled>⏸ 暂停</button>
+                            <button class="btn btn-sm btn-danger" id="btn-stop" disabled>⏹ 停止</button>
+                        </div>
+                    </div>
+
+                    <!-- 旁白条 -->
+                    <div class="arena-narrator" id="arena-narrator">
+                        <span class="narrator-text" id="narrator-text"></span>
+                    </div>
+
+                    <!-- 围桌区域 -->
+                        <div class="arena-table" id="arena-table">
+                        <!-- 中央：系统消息/阶段提示 -->
+                        <div class="arena-center" id="arena-center">
+                            <div class="arena-center-content">
+                                <span class="arena-center-icon">🏟️</span>
+                                <span class="arena-center-text">等待开始...</span>
+                            </div>
+                        </div>
+
+                        <!-- 玩家座位（动态生成） -->
+                        <div class="arena-seats" id="arena-seats">
+                            <!-- JS 动态生成座位卡片 -->
+                        </div>
+                    </div>
+
+                    <!-- 发言气泡区域 -->
+                    <div class="arena-speech-area" id="arena-speech-area">
+                        <div class="speech-feed" id="arena-feed">
+                            <!-- 发言气泡在这里展示 -->
+                        </div>
+                    </div>
+
+                    <!-- 玩家状态栏（底部简要信息） -->
+                    <div class="arena-players" id="arena-players">
+                        <!-- 玩家状态由 JS 动态生成 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 设置页面 -->
+            <section id="page-settings" class="page">
+                <div class="page-header">
+                    <h2>设置</h2>
+                    <p>个性化你的 AI Arena</p>
+                </div>
+                <div class="settings-content">
+                    <!-- 体验模式 -->
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">🎮 体验模式</h3>
+                        <p class="settings-section-desc">选择适合你的界面风格</p>
+                        <div class="ux-mode-toggle" id="ux-mode-toggle">
+                            <button class="ux-mode-btn active" data-ux="geek">
+                                <span class="ux-mode-icon">⚡</span>
+                                <span class="ux-mode-title">极客版</span>
+                                <span class="ux-mode-desc">简洁高效，Apple 风格</span>
+                            </button>
+                            <button class="ux-mode-btn" data-ux="spectator">
+                                <span class="ux-mode-icon">✨</span>
+                                <span class="ux-mode-title">高级版</span>
+                                <span class="ux-mode-desc">动效丰富，沉浸观战</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 明暗模式 -->
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">🌓 明暗模式</h3>
+                        <p class="settings-section-desc">选择深色或浅色界面</p>
+                        <div class="mode-toggle" id="mode-toggle">
+                            <button class="mode-btn active" data-mode="dark">
+                                <span class="mode-btn-icon">🌙</span>
+                                <span class="mode-btn-label">暗色</span>
+                            </button>
+                            <button class="mode-btn" data-mode="light">
+                                <span class="mode-btn-icon">☀️</span>
+                                <span class="mode-btn-label">明亮</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 配色方案 -->
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">🎨 配色方案</h3>
+                        <p class="settings-section-desc">选择你喜欢的主色调</p>
+                        <div class="accent-picker" id="accent-picker">
+                            <button class="accent-btn active" data-accent="clean" title="靛蓝">
+                                <span class="accent-swatch" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);"></span>
+                                <span class="accent-name">纯净</span>
+                            </button>
+                            <button class="accent-btn" data-accent="deluxe" title="紫罗兰">
+                                <span class="accent-swatch" style="background: linear-gradient(135deg, #8b5cf6, #a855f7);"></span>
+                                <span class="accent-name">豪华</span>
+                            </button>
+                            <button class="accent-btn" data-accent="soft" title="暖棕">
+                                <span class="accent-swatch" style="background: linear-gradient(135deg, #d4956b, #e8b898);"></span>
+                                <span class="accent-name">柔和</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 音效设置 -->
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">🔊 音效</h3>
+                        <p class="settings-section-desc">开启或关闭游戏音效</p>
+                        <div class="settings-toggle-row">
+                            <span>游戏音效</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="sound-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 其他设置（预留） -->
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">🔧 更多设置</h3>
+                        <p class="settings-section-desc">更多设置即将推出...</p>
+                        <div class="settings-placeholder">
+                            <span class="settings-placeholder-icon">🚧</span>
+                            <span>开发中，敬请期待</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/utils/helpers.js"></script>
+    <script src="/static/js/utils/toast.js"></script>
+    <script src="/static/js/utils/characters.js"></script>
+    <script src="/static/js/utils/sounds.js"></script>
+    <script src="/static/js/utils/gsap-utils.js"></script>
+    <script src="/static/js/utils/skeleton.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/websocket.js"></script>
+    <script src="/static/js/components/config-panel.js"></script>
+    <script src="/static/js/components/scenario-select.js"></script>
+    <script src="/static/js/components/arena.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

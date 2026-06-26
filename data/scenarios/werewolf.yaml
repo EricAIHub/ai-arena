@@ -1,0 +1,56 @@
+# AI Arena - 狼人杀场景配置
+
+name: "狼人杀"
+emoji: "🐺"
+description: "经典社交推理游戏，狼人伪装潜伏，好人寻找真相"
+min_players: 6
+max_players: 10
+
+# 角色配置
+roles:
+  wolf:
+    name: "狼人"
+    emoji: "🐺"
+    team: "wolf"
+    description: "每晚可以和同伴一起选择一名玩家击杀。白天要伪装成好人。"
+    count: 2  # 默认狼人数量
+  
+  seer:
+    name: "预言家"
+    emoji: "🔮"
+    team: "good"
+    description: "每晚可以查验一名玩家的身份。"
+    count: 1
+  
+  doctor:
+    name: "医生"
+    emoji: "💊"
+    team: "good"
+    description: "每晚可以保护一名玩家，使其免受狼人杀害。"
+    count: 1
+  
+  villager:
+    name: "平民"
+    emoji: "👤"
+    team: "good"
+    description: "没有特殊能力，但可以通过分析发言找出狼人。"
+    count: 2  # 剩余人都是平民
+
+# 阶段流程
+phases:
+  - name: "night"
+    display: "🌙 夜晚"
+    description: "狼人选择目标，预言家查验，医生保护"
+  
+  - name: "discussion"
+    display: "☀️ 白天讨论"
+    description: "所有存活玩家轮流发言"
+  
+  - name: "vote"
+    display: "📊 投票"
+    description: "投票淘汰嫌疑人"
+
+# 胜利条件
+win_conditions:
+  wolf: "当存活的狼人数量 >= 存活的好人数量时，狼人获胜。"
+  good: "当所有狼人都被淘汰时，好人获胜。"

@@ -1,0 +1,49 @@
+# AI Arena 配置模板
+# 复制此文件为 config.json 并填入你的 API key
+
+{
+  "models": [
+    {
+      "name": "DeepSeek",
+      "base_url": "https://api.deepseek.com",
+      "api_key": "",
+      "model_name": "deepseek-chat",
+      "emoji": "🧊",
+      "color": "#4A90D9"
+    },
+    {
+      "name": "通义千问",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "api_key": "",
+      "model_name": "qwen-turbo",
+      "emoji": "☁️",
+      "color": "#FF6A00"
+    },
+    {
+      "name": "Kimi",
+      "base_url": "https://api.moonshot.cn/v1",
+      "api_key": "",
+      "model_name": "moonshot-v1-8k",
+      "emoji": "🌙",
+      "color": "#7C3AED"
+    },
+    {
+      "name": "智谱",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key": "",
+      "model_name": "glm-4-flash",
+      "emoji": "🔮",
+      "color": "#059669"
+    },
+    {
+      "name": "OpenAI",
+      "base_url": "https://api.openai.com/v1",
+      "api_key": "",
+      "model_name": "gpt-4o-mini",
+      "emoji": "🤖",
+      "color": "#10A37F"
+    }
+  ],
+  "default_scenario": "werewolf",
+  "language": "zh"
+}

@@ -1,0 +1,306 @@
+/* AI Arena — Light Mode (明亮模式) */
+
+/* ===== 明亮模式基础 ===== */
+[data-mode="light"] {
+    --color-bg: #f5f5f7;
+    --color-bg-secondary: #ffffff;
+    --color-bg-tertiary: #f0f0f2;
+    --color-bg-elevated: #ffffff;
+    --color-bg-input: #ffffff;
+    --color-text: #1d1d1f;
+    --color-text-secondary: #6e6e73;
+    --color-text-muted: #86868b;
+    --color-text-disabled: #aeaeb2;
+    --color-border: rgba(0, 0, 0, 0.08);
+    --color-border-hover: rgba(0, 0, 0, 0.15);
+    --color-border-focus: #6366f1;
+    --color-success: #16a34a;
+    --color-success-bg: rgba(22, 163, 74, 0.1);
+    --color-warning: #ca8a04;
+    --color-warning-bg: rgba(202, 138, 4, 0.1);
+    --color-danger: #dc2626;
+    --color-danger-bg: rgba(220, 38, 38, 0.1);
+    --color-info: #2563eb;
+    --color-info-bg: rgba(37, 99, 235, 0.1);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 0 1px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.1), 0 0 60px rgba(99,102,241,0.04);
+    --shadow-glow: 0 0 20px rgba(99,102,241,0.1), 0 0 60px rgba(99,102,241,0.03);
+}
+
+/* 明亮模式背景 */
+[data-mode="light"] body {
+    background: #f5f5f7;
+    background-image:
+        radial-gradient(ellipse 600px 400px at 15% 10%, rgba(99, 102, 241, 0.05) 0%, transparent 100%),
+        radial-gradient(ellipse 500px 500px at 85% 25%, rgba(139, 92, 246, 0.04) 0%, transparent 100%),
+        radial-gradient(ellipse 700px 350px at 50% 90%, rgba(59, 130, 246, 0.03) 0%, transparent 100%);
+    background-attachment: fixed;
+}
+
+/* 明亮模式导航栏 */
+[data-mode="light"] .navbar {
+    background: rgba(255, 255, 255, 0.75);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    backdrop-filter: blur(24px) saturate(1.8);
+}
+[data-mode="light"] .navbar::before {
+    background: linear-gradient(90deg, transparent 5%, rgba(99, 102, 241, 0.15) 30%, rgba(139, 92, 246, 0.1) 70%, transparent 95%);
+}
+[data-mode="light"] .navbar::after {
+    background: linear-gradient(90deg, transparent 5%, rgba(99, 102, 241, 0.08) 30%, rgba(139, 92, 246, 0.06) 70%, transparent 95%);
+}
+
+/* 明亮模式卡片 */
+[data-mode="light"] .card {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 8px rgba(0,0,0,0.04);
+    backdrop-filter: blur(10px);
+}
+[data-mode="light"] .card:hover {
+    border-color: rgba(99, 102, 241, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 8px 24px rgba(0,0,0,0.06);
+}
+
+/* 明亮模式模型卡片 */
+[data-mode="light"] .model-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* 明亮模式按钮 */
+[data-mode="light"] .btn-secondary {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--color-text-secondary);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+[data-mode="light"] .btn-secondary:hover {
+    background: rgba(255, 255, 255, 1);
+    color: var(--color-text);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+[data-mode="light"] .btn-danger {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--color-danger);
+    border: 1px solid rgba(220, 38, 38, 0.15);
+}
+
+/* 明亮模式输入框 */
+[data-mode="light"] .input,
+[data-mode="light"] input[type="text"],
+[data-mode="light"] input[type="password"],
+[data-mode="light"] input[type="url"],
+[data-mode="light"] select,
+[data-mode="light"] textarea {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--color-text);
+}
+[data-mode="light"] .input:focus,
+[data-mode="light"] input:focus,
+[data-mode="light"] select:focus,
+[data-mode="light"] textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-glow), 0 0 20px rgba(99, 102, 241, 0.05);
+    background: #fff;
+}
+
+/* 明亮模式滚动条 */
+[data-mode="light"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.08));
+}
+[data-mode="light"] ::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.02);
+}
+
+/* 明亮模式选中 */
+[data-mode="light"] ::selection {
+    background: rgba(99, 102, 241, 0.2);
+    color: #1d1d1f;
+}
+
+/* 明亮模式模态框 */
+[data-mode="light"] .modal-overlay { background: rgba(0,0,0,0.3); }
+[data-mode="light"] .modal-box {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    color: var(--color-text);
+}
+
+/* 明亮模式事件流 */
+[data-mode="light"] .event-system .event-body .event-content::before {
+    background: linear-gradient(180deg, rgba(99,102,241,0.4), rgba(139,92,246,0.3));
+}
+[data-mode="light"] .event-system { border-left-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.03); }
+[data-mode="light"] .event-vote {
+    background: linear-gradient(90deg, rgba(234, 179, 8, 0.06) 0%, transparent 100%);
+    border-left-color: rgba(234,179,8,0.3);
+}
+[data-mode="light"] .event-death {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.06) 0%, transparent 100%);
+    border-left-color: rgba(239,68,68,0.3);
+}
+
+/* 明亮模式导航栏文字 */
+[data-mode="light"] .navbar-brand h1 {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 明亮模式导航按钮 */
+[data-mode="light"] .nav-btn { color: var(--color-text-muted); }
+[data-mode="light"] .nav-btn:hover { color: var(--color-text); background: rgba(99, 102, 241, 0.08); }
+[data-mode="light"] .nav-btn.active { color: var(--color-primary); }
+[data-mode="light"] .nav-btn.active::after {
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.3), 0 -1px 4px rgba(139, 92, 246, 0.2);
+}
+
+/* 明亮模式场景卡片 */
+[data-mode="light"] .scenario-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(245, 245, 247, 0.8));
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 8px rgba(0,0,0,0.04);
+}
+[data-mode="light"] .scenario-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08), 0 0 30px rgba(99,102,241,0.05);
+}
+
+/* 明亮模式链接 */
+[data-mode="light"] a { color: #4f46e5; }
+[data-mode="light"] a:hover { color: #6366f1; }
+
+/* 明亮模式玩家状态栏 */
+[data-mode="light"] .arena-players {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(245, 245, 247, 0.8));
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* 明亮模式玩家卡片 */
+[data-mode="light"] .player-card,
+[data-mode="light"] .player-status {
+    background: rgba(255,255,255,0.7);
+    border-color: rgba(0,0,0,0.06);
+    color: var(--color-text);
+}
+[data-mode="light"] .player-card:hover,
+[data-mode="light"] .player-status:hover {
+    border-color: rgba(99,102,241,0.15);
+    background: rgba(255,255,255,0.9);
+}
+[data-mode="light"] .player-card.dead {
+    background: rgba(220, 38, 38, 0.03);
+    border-color: rgba(220, 38, 38, 0.1);
+}
+
+/* 明亮模式 arena */
+[data-mode="light"] .arena-header {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(245, 245, 247, 0.8));
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 8px rgba(0,0,0,0.04);
+}
+[data-mode="light"] .arena-feed {
+    background: rgba(245, 245, 247, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+[data-mode="light"] .feed-event.event-speech .event-body {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 247, 0.9));
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+[data-mode="light"] .feed-event.event-speech .event-avatar {
+    background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.08));
+    border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+/* 明亮模式 ws-status */
+[data-mode="light"] .ws-status {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* 明亮模式 theme toggle button */
+[data-mode="light"] .btn-theme {
+    background: var(--color-bg-tertiary);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* 明亮模式 reconnect bar */
+[data-mode="light"] .ws-reconnect-bar {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.08), rgba(234, 179, 8, 0.08));
+    border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+    color: #b45309;
+}
+
+/* 明亮模式 arena phase */
+[data-mode="light"] .arena-phase {
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.12);
+    color: #4f46e5;
+}
+
+/* 明亮模式 thinking bubble */
+[data-mode="light"] .thinking-bubble {
+    background: linear-gradient(145deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.04));
+    border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+/* 明亮模式 page header */
+[data-mode="light"] .page-header h2 {
+    background: linear-gradient(135deg, #1d1d1f 0%, #4f46e5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 明亮模式 game over */
+[data-mode="light"] .feed-event.event-game_over {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(168, 85, 247, 0.04) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+}
+[data-mode="light"] .game-over-stats span {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    color: var(--color-text-secondary);
+}
+
+/* 明亮模式 skeleton */
+[data-mode="light"] .skeleton-card,
+[data-mode="light"] .skeleton-line {
+    background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.04) 75%);
+}
+
+/* 明亮模式 empty state */
+[data-mode="light"] .empty-state-emoji {
+    filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.15));
+}
+
+/* 明亮模式 toast */
+[data-mode="light"] .toast { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+/* ===== 明亮模式 + 配色覆盖 ===== */
+[data-mode="light"][data-accent="clean"] {
+    --color-primary: #6366f1;
+    --color-primary-end: #8b5cf6;
+    --color-primary-hover: #4f46e5;
+    --color-primary-glow: rgba(99, 102, 241, 0.12);
+}
+[data-mode="light"][data-accent="deluxe"] {
+    --color-primary: #8b5cf6;
+    --color-primary-end: #a855f7;
+    --color-primary-hover: #7c3aed;
+    --color-primary-glow: rgba(139, 92, 246, 0.12);
+}
+[data-mode="light"][data-accent="soft"] {
+    --color-primary: #b87333;
+    --color-primary-end: #d4956b;
+    --color-primary-hover: #a06020;
+    --color-primary-glow: rgba(184, 115, 51, 0.12);
+}
