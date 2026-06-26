@@ -113,6 +113,7 @@
 .navbar-menu {
     display: flex;
     gap: var(--space-1);
+    margin-right: 150px; /* 为窗口控制按钮留空间 */
 }
 
 .nav-btn {
@@ -987,11 +988,6 @@
     z-index: 9999;
     -webkit-app-region: drag;
     pointer-events: none;
-}
-
-/* Electron 无边框窗口控制按钮区域（Windows: 最小化/最大化/关闭 ≈ 138px） */
-.navbar-menu {
-    padding-right: 150px; /* 为窗口控制按钮留空间 */
 }
 
 /* 导航栏样式（仅 Electron 启用 drag） */
