@@ -1,4 +1,4 @@
-/* AI Arena â€?Layout v2.0 */
+/* AI Arena ï¿½?Layout v2.0 */
 
 /* ===== Theme toggle button ===== */
 .btn-theme {
@@ -28,7 +28,7 @@
 }
 
 /* ================================================================
-   NAVBAR â€?glass with gradient accent line
+   NAVBAR ï¿½?glass with gradient accent line
    ================================================================ */
 .navbar {
     display: flex;
@@ -48,8 +48,12 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.04),
         0 2px 8px rgba(0, 0, 0, 0.5),
         0 0 40px rgba(99, 102, 241, 0.03);
+    -webkit-app-region: drag;
+    margin-top: 0;
+    padding-right: var(--space-4);
+    position: relative;
 }
-/* Top gradient accent line â€?enhanced */
+/* Top gradient accent line ï¿½?enhanced */
 .navbar::before {
     content: '';
     position: absolute;
@@ -136,7 +140,7 @@
     color: var(--color-primary);
     background: var(--color-primary-glow);
 }
-/* Bottom indicator â€?enhanced gradient bar */
+/* Bottom indicator ï¿½?enhanced gradient bar */
 .nav-btn.active::after {
     content: '';
     position: absolute;
@@ -262,7 +266,7 @@
     margin-bottom: var(--space-5);
 }
 
-/* Model card â€?luminous accent stripe */
+/* Model card ï¿½?luminous accent stripe */
 .model-card {
     padding-left: calc(var(--space-5) + 4px);
     border-left: 4px solid #6366f1;
@@ -313,7 +317,7 @@
 }
 
 /* ================================================================
-   EMPTY STATE â€?beautiful gradient emoji
+   EMPTY STATE ï¿½?beautiful gradient emoji
    ================================================================ */
 .empty-state {
     display: flex;
@@ -349,7 +353,7 @@
 }
 
 /* ================================================================
-   SCENARIO PAGE â€?themed cards
+   SCENARIO PAGE ï¿½?themed cards
    ================================================================ */
 .scenario-grid {
     display: grid;
@@ -363,7 +367,7 @@
     padding: var(--space-5);
     border-radius: var(--radius-lg);
     transition: all var(--transition-base);
-    /* Default glass card style â€?overridden per scenario */
+    /* Default glass card style ï¿½?overridden per scenario */
     background: linear-gradient(145deg, rgba(17, 17, 24, 0.8), rgba(25, 25, 32, 0.6));
     border: 1px solid rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
@@ -419,7 +423,7 @@
     --scenario-accent: var(--accent-custom);
 }
 
-/* Playable indicator â€?pulsing glow */
+/* Playable indicator ï¿½?pulsing glow */
 .scenario-card .scenario-status {
     position: absolute;
     top: var(--space-4);
@@ -468,7 +472,7 @@
     gap: var(--space-3);
 }
 
-/* Arena header â€?elevated glass */
+/* Arena header ï¿½?elevated glass */
 .arena-header {
     display: flex;
     align-items: center;
@@ -512,7 +516,7 @@
     gap: var(--space-2);
 }
 
-/* Arena feed â€?deep glass panel */
+/* Arena feed ï¿½?deep glass panel */
 .arena-feed {
     flex: 1;
     overflow-y: auto;
@@ -552,7 +556,7 @@
 }
 
 /* ================================================================
-   FEED EVENTS â€?polished speech bubbles
+   FEED EVENTS ï¿½?polished speech bubbles
    ================================================================ */
 .feed-event {
     display: flex;
@@ -563,7 +567,7 @@
     position: relative;
 }
 
-/* Speech bubble â€?polished glass */
+/* Speech bubble ï¿½?polished glass */
 .feed-event.event-speech {
     background: transparent;
     max-width: 85%;
@@ -602,7 +606,7 @@
     color: var(--color-text);
 }
 
-/* System â€?centered with gradient accent */
+/* System ï¿½?centered with gradient accent */
 .feed-event.event-system {
     justify-content: center;
     padding: var(--space-2) var(--space-4);
@@ -629,21 +633,21 @@
     box-shadow: 0 0 6px var(--color-primary-glow);
 }
 
-/* Death â€?red glow */
+/* Death ï¿½?red glow */
 .feed-event.event-death {
     background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, transparent 100%);
     border-left: 2px solid var(--color-danger);
     box-shadow: inset 4px 0 12px rgba(239, 68, 68, 0.05);
 }
 
-/* Vote â€?amber glow */
+/* Vote ï¿½?amber glow */
 .feed-event.event-vote {
     background: linear-gradient(90deg, rgba(234, 179, 8, 0.1) 0%, transparent 100%);
     border-left: 2px solid var(--color-warning);
     box-shadow: inset 4px 0 12px rgba(234, 179, 8, 0.05);
 }
 
-/* Game over â€?celebration */
+/* Game over ï¿½?celebration */
 .feed-event.event-game_over {
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.06) 100%);
     border: 1px solid rgba(99, 102, 241, 0.2);
@@ -762,7 +766,7 @@
 }
 
 /* ================================================================
-   PLAYER CARD â€?ç©å®¶çŠ¶æ€å¡ç‰?   ================================================================ */
+   PLAYER CARD ï¿½?ç©å®¶çŠ¶æ€å¡ï¿½?   ================================================================ */
 .player-card {
     display: flex;
     align-items: center;
@@ -835,7 +839,7 @@
 }
 
 /* ================================================================
-   THINKING INDICATOR â€?æ€è€ƒæŒ‡ç¤ºå™¨
+   THINKING INDICATOR ï¿½?æ€è€ƒæŒ‡ç¤ºå™¨
    ================================================================ */
 .event-thinking {
     opacity: 0.7;
@@ -863,7 +867,7 @@
 .thinking-dots span:nth-child(3) { animation-delay: 0.32s; }
 
 /* ================================================================
-   EVENT TIMESTAMP â€?æ¶ˆæ¯æ—¶é—´æˆ?   ================================================================ */
+   EVENT TIMESTAMP ï¿½?æ¶ˆæ¯æ—¶é—´ï¿½?   ================================================================ */
 .event-time {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
@@ -877,7 +881,7 @@
 }
 
 /* ================================================================
-   MODAL â€?ç¡®è®¤å¯¹è¯æ¡?   ================================================================ */
+   MODAL ï¿½?ç¡®è®¤å¯¹è¯ï¿½?   ================================================================ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -925,7 +929,7 @@
 }
 
 /* ================================================================
-   GAME OVER â€?å¢å¼ºæ•ˆæœ
+   GAME OVER ï¿½?å¢å¼ºæ•ˆæœ
    ================================================================ */
 .game-over-content {
     text-align: center;
@@ -976,15 +980,15 @@
 }
 
 /* ================================================================
-   CUSTOM TITLEBAR ¡ª Electron È«×Ô¶¨Òå´°¿Ú
+   CUSTOM TITLEBAR ï¿½ï¿½ Electron È«ï¿½Ô¶ï¿½ï¿½å´°ï¿½ï¿½
    ================================================================ */
 
-/* Òş²ØÄ¬ÈÏ titlebar */
+/* ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ titlebar */
 .custom-titlebar {
     display: none;
 }
 
-/* µ¼º½À¸¼´±êÌâÀ¸£¬ÕûÌå¿ÉÍÏ×§ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×§ */
 .navbar {
     -webkit-app-region: drag;
     margin-top: 0;
@@ -992,7 +996,8 @@
     position: relative;
 }
 
-/* µ¼º½À¸ÄÚËùÓĞ½»»¥ÔªËØ²»¿ÉÍÏ×§ */
+
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ½ï¿½ï¿½ï¿½Ôªï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½×§ */
 .navbar button,
 .navbar .nav-btn,
 .navbar .btn-theme,
@@ -1001,7 +1006,7 @@
     -webkit-app-region: no-drag;
 }
 
-/* ´°¿Ú¿ØÖÆ°´Å¥ ¡ª ÄÚÇ¶ÔÚ navbar ÓÒ²à */
+/* ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Æ°ï¿½Å¥ ï¿½ï¿½ ï¿½ï¿½Ç¶ï¿½ï¿½ navbar ï¿½Ò²ï¿½ */
 .window-controls {
     display: flex;
     align-items: center;
@@ -1032,7 +1037,7 @@
     color: #fff;
 }
 
-/* ´°¿ÚÔ²»¡±ß½Ç */
+/* ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ß½ï¿½ */
 html {
     border-radius: 12px;
     overflow: hidden;
@@ -1111,7 +1116,7 @@ body {
     font-weight: 500;
 }
 
-/* ===== é…è‰²æ–¹æ¡ˆé€‰æ‹©å™?===== */
+/* ===== é…è‰²æ–¹æ¡ˆé€‰æ‹©ï¿½?===== */
 .accent-picker {
     display: flex;
     gap: var(--space-3);
@@ -1178,11 +1183,8 @@ body {
 }
 
 /* è®¾ç½®é¡µé¢é—´è·è°ƒæ•´ */
-.settings-section {
-    margin-bottom: var(--space-8);
-}
 
-/* ===== è®¾ç½®é¡?Toggle å¼€å…?===== */
+/* ===== è®¾ç½®ï¿½?Toggle å¼€ï¿½?===== */
 .settings-toggle-row {
     display: flex;
     align-items: center;
@@ -1242,7 +1244,7 @@ body {
     font-size: 24px;
 }
 
-/* ===== UX æ¨¡å¼é€‰æ‹©å™?===== */
+/* ===== UX æ¨¡å¼é€‰æ‹©ï¿½?===== */
 .ux-mode-toggle {
     display: flex;
     gap: var(--space-3);

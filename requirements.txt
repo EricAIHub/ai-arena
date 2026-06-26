@@ -1,6 +1,6 @@
-fastapi
-uvicorn[standard]
-httpx
-pyyaml
-python-multipart
-websockets
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+httpx>=0.24.0
+pyyaml>=6.0
+python-multipart>=0.0.5
+websockets>=11.0
