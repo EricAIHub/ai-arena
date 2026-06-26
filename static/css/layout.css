@@ -166,7 +166,6 @@
 }
 .page.active {
     display: block;
-    animation: pageEnter 250ms ease both;
 }
 
 .page-header {
