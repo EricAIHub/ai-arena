@@ -6,7 +6,7 @@ const App = {
     currentPage: 'config',
 
     async init() {
-        console.log('🏟️ AI Arena 启动中...');
+        console.log('AI Arena 启动中...');
 
         // 初始化主题
         ThemeManager.init();
@@ -14,10 +14,10 @@ const App = {
         // 连接 WebSocket
         gameWS.connect();
 
-        // 先绑定导航（最重要，不能被组件错误阻塞）
+        // 先绑定导航
         this.bindNavigation();
 
-        // 初始化各组件（任一组件失败不阻塞其他）
+        // 初始化各组件
         try { await ConfigPanel.init(); } catch(e) { console.error('ConfigPanel init failed:', e); }
         try { await ScenarioSelect.init(); } catch(e) { console.error('ScenarioSelect init failed:', e); }
         try { Arena.init(); } catch(e) { console.error('Arena init failed:', e); }
@@ -25,10 +25,13 @@ const App = {
         // 初始化设置页面
         try { this.initSettings(); } catch(e) { console.error('initSettings failed:', e); }
 
+        // 初始化窗口控制
+        try { this.initWindowControls(); } catch(e) { console.error('initWindowControls failed:', e); }
+
         // 新手引导
         this.initOnboarding();
 
-        console.log('✅ AI Arena 就绪');
+        console.log('AI Arena 就绪');
     },
 
     initOnboarding() {
@@ -47,7 +50,6 @@ const App = {
     },
 
     bindNavigation() {
-        // 事件委托：绑定到 navbar-menu 容器，避免元素替换导致失效
         const menu = document.querySelector('.navbar-menu');
         if (menu) {
             menu.addEventListener('click', (e) => {
@@ -73,7 +75,6 @@ const App = {
                     btn.classList.toggle('active', btn.dataset.ux === ThemeManager.uxMode);
                 });
             });
-            // 初始化
             const savedUx = localStorage.getItem('ai-arena-ux') || 'spectator';
             ThemeManager.setUxMode(savedUx);
         }
@@ -86,13 +87,11 @@ const App = {
                     ThemeManager.setMode(btn.dataset.mode);
                 });
             });
-            // 更新选中状态
             document.addEventListener('theme-changed', () => {
                 modeToggle.querySelectorAll('.mode-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.mode === ThemeManager.mode);
                 });
             });
-            // 初始化
             modeToggle.querySelector(`[data-mode="${ThemeManager.mode}"]`)?.classList.add('active');
         }
 
@@ -119,13 +118,11 @@ const App = {
                     ThemeManager.setAccent(btn.dataset.accent);
                 });
             });
-            // 更新选中状态
             document.addEventListener('theme-changed', () => {
                 accentPicker.querySelectorAll('.accent-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.accent === ThemeManager.accent);
                 });
             });
-            // 初始化
             accentPicker.querySelector(`[data-accent="${ThemeManager.accent}"]`)?.classList.add('active');
         }
 
@@ -138,6 +135,34 @@ const App = {
                 logo.style.webkitTextFillColor = 'transparent';
             }
         });
+    },
+
+    initWindowControls() {
+        const minimizeBtn = document.getElementById('win-minimize');
+        const maximizeBtn = document.getElementById('win-maximize');
+        const closeBtn = document.getElementById('win-close');
+
+        if (minimizeBtn) {
+            minimizeBtn.addEventListener('click', () => {
+                if (window.electronAPI) window.electronAPI.minimize();
+            });
+        }
+        if (maximizeBtn) {
+            maximizeBtn.addEventListener('click', () => {
+                if (window.electronAPI) window.electronAPI.maximize();
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                if (window.electronAPI) window.electronAPI.close();
+            });
+        }
+
+        // 非 Electron 环境隐藏窗口控制按钮
+        if (!window.electronAPI) {
+            const controls = document.getElementById('window-controls');
+            if (controls) controls.style.display = 'none';
+        }
     },
 
     navigateTo(page) {
@@ -162,14 +187,15 @@ const App = {
             return;
         }
 
-        // 简单可靠方案：先隐藏旧页面，再显示新页面
+        // 隐藏旧页面（清空 inline style，让 CSS class 控制）
         currentPageEl.classList.remove('active');
-        currentPageEl.style.display = 'none';
+        currentPageEl.style.display = '';
         currentPageEl.style.opacity = '';
         currentPageEl.style.transform = '';
 
+        // 显示新页面（清空 inline display，让 .page.active 控制）
         nextPageEl.classList.add('active');
-        nextPageEl.style.display = 'block';
+        nextPageEl.style.display = '';
         nextPageEl.style.opacity = '0';
         nextPageEl.style.transform = 'translateY(12px)';
 

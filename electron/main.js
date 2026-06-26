@@ -90,11 +90,7 @@ function createWindow() {
         frame: false,
         transparent: true,
         titleBarStyle: 'hidden',
-        titleBarOverlay: {
-            color: 'rgba(0,0,0,0)',
-            symbolColor: '#ffffff',
-            height: 36,
-        },
+        titleBarOverlay: false,
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,

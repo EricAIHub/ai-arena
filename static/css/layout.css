@@ -1,4 +1,4 @@
-/* AI Arena â€” Layout v2.0 */
+/* AI Arena â€?Layout v2.0 */
 
 /* ===== Theme toggle button ===== */
 .btn-theme {
@@ -28,7 +28,7 @@
 }
 
 /* ================================================================
-   NAVBAR â€” glass with gradient accent line
+   NAVBAR â€?glass with gradient accent line
    ================================================================ */
 .navbar {
     display: flex;
@@ -49,7 +49,7 @@
         0 2px 8px rgba(0, 0, 0, 0.5),
         0 0 40px rgba(99, 102, 241, 0.03);
 }
-/* Top gradient accent line â€” enhanced */
+/* Top gradient accent line â€?enhanced */
 .navbar::before {
     content: '';
     position: absolute;
@@ -112,8 +112,10 @@
 
 .navbar-menu {
     display: flex;
-    gap: var(--space-1);
-    margin-right: 150px; /* ä¸ºçª—å£æ§åˆ¶æŒ‰é’®ç•™ç©ºé—´ */
+    gap: var(--space-2);
+    align-items: center;
+    margin-right: auto; /* ä¸å†é¢„ç•™å›ºå®šç©ºé—´ï¼Œé¿å…å’Œ titlebar æ§åˆ¶æŒ‰é’®é‡å  */
+    padding-right: var(--space-4);
 }
 
 .nav-btn {
@@ -134,7 +136,7 @@
     color: var(--color-primary);
     background: var(--color-primary-glow);
 }
-/* Bottom indicator â€” enhanced gradient bar */
+/* Bottom indicator â€?enhanced gradient bar */
 .nav-btn.active::after {
     content: '';
     position: absolute;
@@ -260,7 +262,7 @@
     margin-bottom: var(--space-5);
 }
 
-/* Model card â€” luminous accent stripe */
+/* Model card â€?luminous accent stripe */
 .model-card {
     padding-left: calc(var(--space-5) + 4px);
     border-left: 4px solid #6366f1;
@@ -311,7 +313,7 @@
 }
 
 /* ================================================================
-   EMPTY STATE â€” beautiful gradient emoji
+   EMPTY STATE â€?beautiful gradient emoji
    ================================================================ */
 .empty-state {
     display: flex;
@@ -347,7 +349,7 @@
 }
 
 /* ================================================================
-   SCENARIO PAGE â€” themed cards
+   SCENARIO PAGE â€?themed cards
    ================================================================ */
 .scenario-grid {
     display: grid;
@@ -361,7 +363,7 @@
     padding: var(--space-5);
     border-radius: var(--radius-lg);
     transition: all var(--transition-base);
-    /* Default glass card style â€” overridden per scenario */
+    /* Default glass card style â€?overridden per scenario */
     background: linear-gradient(145deg, rgba(17, 17, 24, 0.8), rgba(25, 25, 32, 0.6));
     border: 1px solid rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
@@ -417,7 +419,7 @@
     --scenario-accent: var(--accent-custom);
 }
 
-/* Playable indicator â€” pulsing glow */
+/* Playable indicator â€?pulsing glow */
 .scenario-card .scenario-status {
     position: absolute;
     top: var(--space-4);
@@ -466,7 +468,7 @@
     gap: var(--space-3);
 }
 
-/* Arena header â€” elevated glass */
+/* Arena header â€?elevated glass */
 .arena-header {
     display: flex;
     align-items: center;
@@ -510,7 +512,7 @@
     gap: var(--space-2);
 }
 
-/* Arena feed â€” deep glass panel */
+/* Arena feed â€?deep glass panel */
 .arena-feed {
     flex: 1;
     overflow-y: auto;
@@ -550,7 +552,7 @@
 }
 
 /* ================================================================
-   FEED EVENTS â€” polished speech bubbles
+   FEED EVENTS â€?polished speech bubbles
    ================================================================ */
 .feed-event {
     display: flex;
@@ -561,7 +563,7 @@
     position: relative;
 }
 
-/* Speech bubble â€” polished glass */
+/* Speech bubble â€?polished glass */
 .feed-event.event-speech {
     background: transparent;
     max-width: 85%;
@@ -600,7 +602,7 @@
     color: var(--color-text);
 }
 
-/* System â€” centered with gradient accent */
+/* System â€?centered with gradient accent */
 .feed-event.event-system {
     justify-content: center;
     padding: var(--space-2) var(--space-4);
@@ -627,21 +629,21 @@
     box-shadow: 0 0 6px var(--color-primary-glow);
 }
 
-/* Death â€” red glow */
+/* Death â€?red glow */
 .feed-event.event-death {
     background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, transparent 100%);
     border-left: 2px solid var(--color-danger);
     box-shadow: inset 4px 0 12px rgba(239, 68, 68, 0.05);
 }
 
-/* Vote â€” amber glow */
+/* Vote â€?amber glow */
 .feed-event.event-vote {
     background: linear-gradient(90deg, rgba(234, 179, 8, 0.1) 0%, transparent 100%);
     border-left: 2px solid var(--color-warning);
     box-shadow: inset 4px 0 12px rgba(234, 179, 8, 0.05);
 }
 
-/* Game over â€” celebration */
+/* Game over â€?celebration */
 .feed-event.event-game_over {
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.06) 100%);
     border: 1px solid rgba(99, 102, 241, 0.2);
@@ -760,8 +762,7 @@
 }
 
 /* ================================================================
-   PLAYER CARD â€” ç©å®¶çŠ¶æ€å¡ç‰‡
-   ================================================================ */
+   PLAYER CARD â€?ç©å®¶çŠ¶æ€å¡ç‰?   ================================================================ */
 .player-card {
     display: flex;
     align-items: center;
@@ -834,7 +835,7 @@
 }
 
 /* ================================================================
-   THINKING INDICATOR â€” æ€è€ƒæŒ‡ç¤ºå™¨
+   THINKING INDICATOR â€?æ€è€ƒæŒ‡ç¤ºå™¨
    ================================================================ */
 .event-thinking {
     opacity: 0.7;
@@ -862,8 +863,7 @@
 .thinking-dots span:nth-child(3) { animation-delay: 0.32s; }
 
 /* ================================================================
-   EVENT TIMESTAMP â€” æ¶ˆæ¯æ—¶é—´æˆ³
-   ================================================================ */
+   EVENT TIMESTAMP â€?æ¶ˆæ¯æ—¶é—´æˆ?   ================================================================ */
 .event-time {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
@@ -877,8 +877,7 @@
 }
 
 /* ================================================================
-   MODAL â€” ç¡®è®¤å¯¹è¯æ¡†
-   ================================================================ */
+   MODAL â€?ç¡®è®¤å¯¹è¯æ¡?   ================================================================ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -926,7 +925,7 @@
 }
 
 /* ================================================================
-   GAME OVER â€” å¢å¼ºæ•ˆæœ
+   GAME OVER â€?å¢å¼ºæ•ˆæœ
    ================================================================ */
 .game-over-content {
     text-align: center;
@@ -977,33 +976,63 @@
 }
 
 /* ================================================================
-   CUSTOM TITLEBAR â€” Electron æ— è¾¹æ¡†çª—å£
+   CUSTOM TITLEBAR ¡ª Electron È«×Ô¶¨Òå´°¿Ú
    ================================================================ */
+
+/* Òş²ØÄ¬ÈÏ titlebar */
 .custom-titlebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 36px;
-    z-index: 9999;
-    -webkit-app-region: drag;
-    pointer-events: none;
+    display: none;
 }
 
-/* Electron çª—å£æ§åˆ¶åç§» */
+/* µ¼º½À¸¼´±êÌâÀ¸£¬ÕûÌå¿ÉÍÏ×§ */
 .navbar {
-    margin-top: 36px;
+    -webkit-app-region: drag;
+    margin-top: 0;
+    padding-right: var(--space-4);
+    position: relative;
 }
 
-/* å¯¼èˆªæ å†…çš„æŒ‰é’®éœ€è¦å¯ç‚¹å‡»ï¼Œä¸è¢«æ‹–æ‹½æ‹¦æˆª */
+/* µ¼º½À¸ÄÚËùÓĞ½»»¥ÔªËØ²»¿ÉÍÏ×§ */
 .navbar button,
 .navbar .nav-btn,
 .navbar .btn-theme,
-.navbar .ws-status {
+.navbar .ws-status,
+.navbar .window-controls {
     -webkit-app-region: no-drag;
 }
 
-/* çª—å£åœ†å¼§è¾¹è§’ */
+/* ´°¿Ú¿ØÖÆ°´Å¥ ¡ª ÄÚÇ¶ÔÚ navbar ÓÒ²à */
+.window-controls {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: var(--space-3);
+    flex-shrink: 0;
+}
+.win-btn {
+    width: 36px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+.win-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-text);
+}
+.win-btn-close:hover {
+    background: #e81123;
+    color: #fff;
+}
+
+/* ´°¿ÚÔ²»¡±ß½Ç */
 html {
     border-radius: 12px;
     overflow: hidden;
@@ -1082,7 +1111,7 @@ body {
     font-weight: 500;
 }
 
-/* ===== é…è‰²æ–¹æ¡ˆé€‰æ‹©å™¨ ===== */
+/* ===== é…è‰²æ–¹æ¡ˆé€‰æ‹©å™?===== */
 .accent-picker {
     display: flex;
     gap: var(--space-3);
@@ -1153,7 +1182,7 @@ body {
     margin-bottom: var(--space-8);
 }
 
-/* ===== è®¾ç½®é¡µ Toggle å¼€å…³ ===== */
+/* ===== è®¾ç½®é¡?Toggle å¼€å…?===== */
 .settings-toggle-row {
     display: flex;
     align-items: center;
@@ -1213,7 +1242,7 @@ body {
     font-size: 24px;
 }
 
-/* ===== UX æ¨¡å¼é€‰æ‹©å™¨ ===== */
+/* ===== UX æ¨¡å¼é€‰æ‹©å™?===== */
 .ux-mode-toggle {
     display: flex;
     gap: var(--space-3);
