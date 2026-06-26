@@ -41,6 +41,15 @@ class GameEngine:
     async def _emit_events(self, events: list[GameEvent]):
         """发送事件到所有回调"""
         for event in events:
+            # 盲测模式：替换玩家名称和 model_name
+            if self.blind_mode and event.player_id:
+                label = self._blind_labels.get(event.player_id)
+                if label:
+                    event.player_name = label
+            if self.blind_mode and event.data:
+                # 隐藏事件数据中的模型名
+                if 'model_name' in event.data:
+                    event.data['model_name'] = '???'
             self.history.append(event)
             for callback in self._event_callbacks:
                 try:
@@ -53,6 +62,7 @@ class GameEngine:
         scenario: BaseScenario,
         players: list[Player],
         model_configs: dict[str, ModelConfig],
+        blind_mode: bool = False,
     ):
         """开始游戏"""
         self.scenario = scenario
@@ -60,6 +70,14 @@ class GameEngine:
         self.model_configs = model_configs
         self.history = []
         self.is_running = True
+        self.blind_mode = blind_mode
+
+        # 盲测模式：为每个玩家生成匿名标签
+        self._blind_labels: dict[str, str] = {}
+        if blind_mode:
+            labels = ['选手A', '选手B', '选手C', '选手D', '选手E', '选手F', '选手G', '选手H', '选手I', '选手J']
+            for i, p in enumerate(players):
+                self._blind_labels[p.id] = labels[i] if i < len(labels) else f'选手{i+1}'
 
         arena_logger.info(f"游戏开始: {scenario.name}，玩家: {[p.name for p in players]}")
 
@@ -174,22 +192,23 @@ class GameEngine:
 
     def get_state(self) -> dict:
         """获取游戏状态"""
+        players_data = []
+        for p in self.players:
+            pd = {
+                "id": p.id,
+                "name": self._blind_labels.get(p.id, p.name) if self.blind_mode else p.name,
+                "model_name": "???" if self.blind_mode else p.model_name,
+                "emoji": p.emoji,
+                "color": p.color,
+                "role": p.role,
+                "personality": p.personality,
+                "is_alive": p.is_alive,
+            }
+            players_data.append(pd)
         return {
             "is_running": self.is_running,
             "current_phase": self.current_phase.value if self.current_phase else None,
-            "players": [
-                {
-                    "id": p.id,
-                    "name": p.name,
-                    "model_name": p.model_name,
-                    "emoji": p.emoji,
-                    "color": p.color,
-                    "role": p.role,
-                    "personality": p.personality,
-                    "is_alive": p.is_alive,
-                }
-                for p in self.players
-            ],
+            "players": players_data,
             "history": [
                 {
                     "type": e.type,

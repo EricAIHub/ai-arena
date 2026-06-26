@@ -286,15 +286,17 @@ async def start_game(data: dict):
         scenario_id = data.get("scenario", "werewolf")
         players_data = data.get("players", [])
         models_data = data.get("models", [])
+        blind_mode = data.get("blind_mode", False)
 
         # 加载配置获取 API key
         config = load_config()
         config_models = {m["name"]: m for m in config.get("models", [])}
 
-        # 构建模型配置
+        # 构建模型配置（从后端 config 读取完整 api_key，前端传的可能被掩码）
         model_configs = {}
         for m in models_data:
             name = m.get("name", "")
+            # 优先从后端 config 获取完整 api_key
             if name in config_models:
                 cm = config_models[name]
                 model_configs[name] = ModelConfig(
@@ -302,6 +304,16 @@ async def start_game(data: dict):
                     base_url=cm.get("base_url", ""),
                     api_key=cm.get("api_key", ""),
                     model_name=cm.get("model_name", ""),
+                    emoji=m.get("emoji", "🤖"),
+                    color=m.get("color", "#666666"),
+                )
+            elif m.get("api_key"):
+                # 后备：使用前端传来的 key（可能被掩码）
+                model_configs[name] = ModelConfig(
+                    name=name,
+                    base_url=m.get("base_url", ""),
+                    api_key=m.get("api_key", ""),
+                    model_name=m.get("model_name", ""),
                     emoji=m.get("emoji", "🤖"),
                     color=m.get("color", "#666666"),
                 )
@@ -333,12 +345,12 @@ async def start_game(data: dict):
                 content={"error": f"最多 {scenario.max_players} 名玩家", "code": "PLAYER_COUNT_ERROR"},
             )
 
-        arena_logger.info(f"开始游戏: {scenario_id}，玩家数: {len(players)}")
+        arena_logger.info(f"开始游戏: {scenario_id}，玩家数: {len(players)}，盲测: {blind_mode}")
 
         # 启动游戏（后台任务，异常时通过 WebSocket 通知）
         async def _run_game():
             try:
-                await game_engine.start_game(scenario, players, model_configs)
+                await game_engine.start_game(scenario, players, model_configs, blind_mode=blind_mode)
                 # 游戏结束，记录日志
                 log_game_summary(arena_logger, game_engine.get_state())
             except Exception as e:

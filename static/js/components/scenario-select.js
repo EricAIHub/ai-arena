@@ -6,6 +6,7 @@ const ScenarioSelect = {
     scenarios: [],
     selectedScenario: null,
     players: [],
+    blindMode: false,
 
     async init() {
         // 显示骨架屏
@@ -104,6 +105,7 @@ const ScenarioSelect = {
             });
         }
         this.players = defaultPlayers;
+        this.blindMode = false;
 
         setupPanel.innerHTML = `
             <div class="card" style="max-width: 800px; margin: 0 auto;">
@@ -117,6 +119,13 @@ const ScenarioSelect = {
                     </div>
                 </div>
                 <div id="player-list" class="player-list" style="display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-4);">
+                </div>
+                <div style="display: flex; gap: var(--space-3); justify-content: space-between; align-items: center; margin-bottom: var(--space-4);">
+                    <label class="toggle-switch" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
+                        <input type="checkbox" id="blind-mode-toggle">
+                        <span class="toggle-slider"></span>
+                        <span style="font-size: var(--text-sm); color: var(--color-text-secondary);">🔮 盲测模式（隐藏模型名称）</span>
+                    </label>
                 </div>
                 <div style="display: flex; gap: var(--space-3); justify-content: flex-end;">
                     <button class="btn btn-secondary" id="btn-back-scenarios">← 返回</button>
@@ -134,6 +143,7 @@ const ScenarioSelect = {
         });
 
         document.getElementById('btn-start-game').addEventListener('click', () => {
+            this.blindMode = document.getElementById('blind-mode-toggle')?.checked || false;
             this.startGame();
         });
     },
@@ -150,6 +160,9 @@ const ScenarioSelect = {
             });
 
             const charOptions = CharacterModels.getOptionsHTML(player.character || 'robot');
+            const modelOptions = (ConfigPanel.models || []).map(m =>
+                `<option value="${Helpers.escapeHtml(m.name)}" ${m.name === player.model_name ? 'selected' : ''}>${m.emoji || '🤖'} ${Helpers.escapeHtml(m.name)}</option>`
+            ).join('');
 
             row.innerHTML = `
                 <select class="input character-select" data-player-index="${index}" data-player-field="character" style="flex: 1.2;">
@@ -157,10 +170,13 @@ const ScenarioSelect = {
                 </select>
                 <input class="input" type="text" value="${Helpers.escapeHtml(player.name)}" 
                        data-player-index="${index}" data-player-field="name" 
-                       placeholder="玩家名" style="flex: 2;">
+                       placeholder="玩家名" style="flex: 1.5;">
+                <select class="input" data-player-index="${index}" data-player-field="model_name" style="flex: 1.3;">
+                    ${modelOptions}
+                </select>
                 <input class="input" type="text" value="${Helpers.escapeHtml(player.personality)}" 
                        data-player-index="${index}" data-player-field="personality" 
-                       placeholder="如：冷静理性、善于分析、说话毒舌..." style="flex: 3;">
+                       placeholder="性格：冷静理性、善于分析..." style="flex: 2;">
             `;
 
             container.appendChild(row);
@@ -208,6 +224,7 @@ const ScenarioSelect = {
                 scenario: this.selectedScenario.id,
                 players: this.players,
                 models: ConfigPanel.models,
+                blind_mode: this.blindMode,
             });
 
             if (result.error) {

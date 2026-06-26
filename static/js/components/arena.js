@@ -20,6 +20,7 @@ const Arena = {
         this._isPaused = false;
         this._thinkingIndicators = {};
         this._playerSeats = {};
+        this._blindMode = false;
 
         document.getElementById('btn-stop').addEventListener('click', async () => {
             await API.stopGame();
@@ -66,6 +67,7 @@ const Arena = {
         this._isPaused = false;
         this._thinkingIndicators = {};
         this._playerSeats = {};
+        this._blindMode = false;
         document.getElementById('arena-emoji').textContent = '🏟️';
         document.getElementById('arena-scenario-name').textContent = '等待开始...';
         document.getElementById('arena-phase').textContent = '';
@@ -179,8 +181,12 @@ const Arena = {
         el.innerHTML = '<div class="speech-bubble-content"><div class="speech-bubble-text">⚙️ ' + this._esc(content) + '</div></div>';
         this.feedElement.appendChild(el);
         this.scrollToBottom();
+        // 更新中央区域文字（截取前50字）
         const centerText = document.querySelector('.arena-center-text');
-        if (centerText) centerText.textContent = content;
+        if (centerText) {
+            const short = content.length > 50 ? content.substring(0, 50) + '...' : content;
+            centerText.textContent = short;
+        }
     },
 
     addVoteEvent(event) {
@@ -225,6 +231,8 @@ const Arena = {
         el.className = 'speech-bubble game-over';
         el.innerHTML = '<div class="speech-bubble-content"><div class="speech-bubble-text" style="font-size:var(--text-lg);font-weight:700;">🎉 ' + this._esc(event.content) + '</div></div>';
         this.feedElement.appendChild(el);
+        // 显示统计数据
+        this.showGameOverStats(event);
         document.getElementById('btn-stop').disabled = true;
         document.getElementById('btn-pause').disabled = true;
         document.getElementById('arena-phase').textContent = '游戏结束';
@@ -351,5 +359,27 @@ const Arena = {
         if (sec < 60) return sec + '秒前';
         if (sec < 3600) return Math.floor(sec / 60) + '分钟前';
         return Math.floor(sec / 3600) + '小时前';
+    },
+
+    showGameOverStats(event) {
+        // 游戏结束时显示统计信息
+        const data = event.data || {};
+        let statsHtml = '<div style="margin-top:var(--space-3);padding:var(--space-3);border-radius:var(--radius-md);background:var(--color-bg-secondary);">';
+        if (data.winner) {
+            statsHtml += '<div style="font-weight:600;margin-bottom:var(--space-2);">🏆 获胜方：' + this._esc(data.winner) + '</div>';
+        }
+        if (data.rankings && Array.isArray(data.rankings)) {
+            statsHtml += '<div style="font-size:var(--text-sm);color:var(--color-text-secondary);">';
+            data.rankings.forEach((r, i) => {
+                const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '#' + (i+1);
+                statsHtml += medal + ' ' + this._esc(r.player || '???') + ' — ' + (r.score || 0) + '分<br>';
+            });
+            statsHtml += '</div>';
+        }
+        statsHtml += '</div>';
+        const el = document.createElement('div');
+        el.className = 'speech-bubble system';
+        el.innerHTML = '<div class="speech-bubble-content">' + statsHtml + '</div>';
+        this.feedElement.appendChild(el);
     },
 };
