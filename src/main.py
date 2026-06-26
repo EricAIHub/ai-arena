@@ -16,6 +16,8 @@ from .game_engine import game_engine
 from .scenarios import get_scenario, list_scenarios
 from .scenarios.base import Player, GameEvent
 from .logger import arena_logger, log_game_summary
+from .elo import update_ratings_after_game, get_leaderboard, get_model_rating
+from .chronicle import generate_chronicle, generate_share_text
 
 
 # ── 路径处理（兼容 PyInstaller 打包） ────────────────────────
@@ -352,7 +354,39 @@ async def start_game(data: dict):
             try:
                 await game_engine.start_game(scenario, players, model_configs, blind_mode=blind_mode)
                 # 游戏结束，记录日志
-                log_game_summary(arena_logger, game_engine.get_state())
+                state = game_engine.get_state()
+                log_game_summary(arena_logger, state)
+
+                # 更新 Elo 排名
+                winner = state.get("history", [{}])[-1].get("content", "") if state.get("history") else ""
+                for e in reversed(state.get("history", [])):
+                    if e.get("type") == "game_over":
+                        winner = e.get("data", {}).get("winner", "") or e.get("content", "")
+                        break
+                try:
+                    update_ratings_after_game(
+                        scenario=scenario_id,
+                        players=game_engine.players,
+                        winner=winner,
+                        events=game_engine.history,
+                    )
+                except Exception as elo_err:
+                    arena_logger.warning(f"Elo 更新失败: {elo_err}")
+
+                # 生成编年史
+                try:
+                    chronicle = generate_chronicle(
+                        scenario=scenario_id,
+                        players=game_engine.players,
+                        events=game_engine.history,
+                        winner=winner,
+                    )
+                    # 保存到文件
+                    chronicle_path = BASE_DIR / "data" / "last_chronicle.txt"
+                    chronicle_path.write_text(chronicle, encoding="utf-8")
+                    arena_logger.info("编年史已生成")
+                except Exception as ch_err:
+                    arena_logger.warning(f"编年史生成失败: {ch_err}")
             except Exception as e:
                 arena_logger.error(f"游戏异常终止: {e}", exc_info=True)
                 await ws_manager.send_error(f"游戏异常终止：{str(e)}", "GAME_ERROR")
@@ -401,6 +435,41 @@ async def get_game_state():
     except Exception as e:
         arena_logger.error(f"获取状态失败: {e}")
         return JSONResponse(status_code=500, content={"error": f"获取状态失败: {str(e)}", "code": "STATE_ERROR"})
+
+
+@app.get("/api/leaderboard")
+async def get_leaderboard_api(scenario: str = "overall", limit: int = 20):
+    """获取模型 Elo 排行榜"""
+    try:
+        from .elo import get_leaderboard
+        return {"leaderboard": get_leaderboard(scenario=scenario, limit=limit)}
+    except Exception as e:
+        arena_logger.error(f"获取排行榜失败: {e}")
+        return JSONResponse(status_code=500, content={"error": str(e), "code": "LEADERBOARD_ERROR"})
+
+
+@app.get("/api/rating/{model_name}")
+async def get_model_rating_api(model_name: str, scenario: str = "overall"):
+    """获取单个模型的 Elo 评分"""
+    try:
+        from .elo import get_model_rating
+        return get_model_rating(model_name, scenario)
+    except Exception as e:
+        arena_logger.error(f"获取评分失败: {e}")
+        return JSONResponse(status_code=500, content={"error": str(e), "code": "RATING_ERROR"})
+
+
+@app.get("/api/chronicle")
+async def get_chronicle():
+    """获取上一局的游戏编年史"""
+    try:
+        chronicle_path = BASE_DIR / "data" / "last_chronicle.txt"
+        if not chronicle_path.exists():
+            return JSONResponse(status_code=404, content={"error": "暂无编年史", "code": "NO_CHRONICLE"})
+        return {"chronicle": chronicle_path.read_text(encoding="utf-8")}
+    except Exception as e:
+        arena_logger.error(f"获取编年史失败: {e}")
+        return JSONResponse(status_code=500, content={"error": str(e), "code": "CHRONICLE_ERROR"})
 
 
 @app.get("/api/game/snapshot")
