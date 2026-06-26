@@ -1,0 +1,262 @@
+/* ================================================================
+   极客版 UI — 终端黑客风格
+   目标用户：程序员、博主、技术用户
+   设计哲学：高效、紧凑、零装饰、低资源占用
+   ================================================================ */
+
+[data-ux="geek"] {
+    --font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+    --font-size-xs: 11px;
+    --font-size-sm: 12px;
+    --font-size-base: 13px;
+    --font-size-lg: 14px;
+    --font-size-xl: 16px;
+    --font-size-2xl: 18px;
+}
+
+/* ===== 导航栏 ===== */
+[data-ux="geek"] .navbar {
+    height: 40px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
+    backdrop-filter: none;
+}
+[data-ux="geek"] .navbar::before {
+    display: none;
+}
+[data-ux="geek"] .navbar-brand h1 {
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+[data-ux="geek"] .nav-btn {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+[data-ux="geek"] .nav-btn.active {
+    background: rgba(255,255,255,0.08);
+    color: #e0e0e0;
+}
+
+/* ===== 卡片 ===== */
+[data-ux="geek"] .card {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #1a1a1a;
+    background: #111111;
+    box-shadow: none;
+    backdrop-filter: none;
+    animation: none;
+}
+[data-ux="geek"] .card:hover {
+    border-color: #2a2a2a;
+    box-shadow: none;
+    transform: none;
+}
+
+/* ===== 按钮 ===== */
+[data-ux="geek"] .btn-primary {
+    background: var(--color-primary);
+    border: none;
+    border-radius: 3px;
+    font-family: var(--font-family);
+    font-size: 12px;
+    padding: 5px 10px;
+    box-shadow: none;
+    animation: none;
+}
+[data-ux="geek"] .btn-secondary {
+    background: transparent;
+    border: 1px solid #2a2a2a;
+    border-radius: 3px;
+    color: #808080;
+    font-family: var(--font-family);
+    font-size: 12px;
+}
+[data-ux="geek"] .btn-danger {
+    background: transparent;
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 3px;
+    color: #ef4444;
+}
+
+/* ===== 输入框 ===== */
+[data-ux="geek"] .input {
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 3px;
+    font-family: var(--font-family);
+    font-size: 12px;
+    padding: 6px 8px;
+}
+[data-ux="geek"] .input:focus {
+    border-color: var(--color-primary);
+    box-shadow: none;
+}
+
+/* ===== 场景卡片 ===== */
+[data-ux="geek"] .scenario-card {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #1a1a1a;
+    background: #111111;
+    transition: border-color 0.1s;
+    animation: none;
+    box-shadow: none;
+}
+[data-ux="geek"] .scenario-card:hover {
+    border-color: var(--color-primary);
+    transform: none;
+    box-shadow: none;
+}
+[data-ux="geek"] .scenario-card::before {
+    display: none;
+}
+[data-ux="geek"] .scenario-card .scenario-emoji {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+[data-ux="geek"] .scenario-card .scenario-name {
+    font-size: 13px;
+    font-weight: 600;
+}
+[data-ux="geek"] .scenario-card .scenario-desc {
+    font-size: 11px;
+    min-height: auto;
+    margin-bottom: 8px;
+}
+
+/* ===== 设置页面 ===== */
+[data-ux="geek"] .settings-section {
+    padding: 12px;
+    margin-bottom: 8px;
+    background: #111111;
+    border: 1px solid #1a1a1a;
+    border-radius: 4px;
+}
+[data-ux="geek"] .settings-section-title {
+    font-size: 13px;
+    font-weight: 600;
+}
+[data-ux="geek"] .settings-section-desc {
+    font-size: 11px;
+    color: #555555;
+}
+[data-ux="geek"] .mode-btn,
+[data-ux="geek"] .accent-btn,
+[data-ux="geek"] .ux-mode-btn {
+    padding: 8px 12px;
+    border-radius: 3px;
+    border: 1px solid #1a1a1a;
+    background: #0a0a0a;
+    font-size: 12px;
+}
+[data-ux="geek"] .mode-btn.active,
+[data-ux="geek"] .accent-btn.active,
+[data-ux="geek"] .ux-mode-btn.active {
+    border-color: var(--color-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+/* ===== 观战区域 ===== */
+[data-ux="geek"] .arena-table {
+    border: 1px solid #1a1a1a;
+    background: #0a0a0a;
+    border-radius: 4px;
+    min-height: 200px;
+}
+[data-ux="geek"] .arena-table::before,
+[data-ux="geek"] .arena-table::after {
+    display: none;
+}
+[data-ux="geek"] .arena-center {
+    opacity: 0.5;
+}
+[data-ux="geek"] .arena-header {
+    background: #111111;
+    border: 1px solid #1a1a1a;
+    border-radius: 4px;
+}
+
+/* ===== 座位卡 ===== */
+[data-ux="geek"] .seat-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 4px;
+    border: 1px solid #1a1a1a;
+    background: #111111;
+}
+[data-ux="geek"] .seat.alive .seat-avatar {
+    border-color: rgba(34,197,94,0.3);
+    box-shadow: none;
+}
+[data-ux="geek"] .seat.speaking .seat-avatar {
+    box-shadow: none;
+    animation: none;
+    border-color: var(--color-primary);
+}
+[data-ux="geek"] .seat-name {
+    font-size: 10px;
+    font-family: var(--font-family);
+}
+
+/* ===== 消息气泡 ===== */
+[data-ux="geek"] .speech-bubble {
+    padding: 6px 10px;
+    border-radius: 3px;
+    background: #111111;
+    border: 1px solid #1a1a1a;
+    font-size: 12px;
+    animation: none;
+}
+[data-ux="geek"] .speech-bubble.system {
+    background: rgba(99,102,241,0.05);
+    border-color: rgba(99,102,241,0.1);
+    text-align: center;
+    justify-content: center;
+}
+[data-ux="geek"] .speech-bubble::before {
+    display: none;
+}
+
+/* ===== 玩家状态栏 ===== */
+[data-ux="geek"] .player-card {
+    padding: 4px 8px;
+    border-radius: 3px;
+    background: #111111;
+    border: 1px solid #1a1a1a;
+    font-size: 11px;
+}
+[data-ux="geek"] .player-card.dead {
+    opacity: 0.4;
+}
+
+/* ===== 禁用所有装饰 ===== */
+[data-ux="geek"] body::after {
+    display: none;
+}
+[data-ux="geek"] .logo {
+    animation: none;
+}
+[data-ux="geek"] .arena-narrator {
+    display: none;
+}
+[data-ux="geek"] .arena-play-again {
+    animation: none;
+}
+[data-ux="geek"] .thinking-bubble {
+    animation: none;
+}
+[data-ux="geek"] .toast {
+    box-shadow: none;
+    backdrop-filter: none;
+}
+[data-ux="geek"] .modal-box {
+    box-shadow: none;
+    backdrop-filter: none;
+}
+[data-ux="geek"] ::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+}

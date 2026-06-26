@@ -74,7 +74,7 @@ const App = {
                 });
             });
             // 初始化
-            const savedUx = localStorage.getItem('ai-arena-ux') || 'geek';
+            const savedUx = localStorage.getItem('ai-arena-ux') || 'spectator';
             ThemeManager.setUxMode(savedUx);
         }
 

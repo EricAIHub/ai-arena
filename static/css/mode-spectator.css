@@ -1,0 +1,351 @@
+/* ================================================================
+   高级版 UI — 赛博朋克游戏风格
+   目标用户：大众用户、娱乐观众、游戏玩家
+   设计哲学：视觉冲击、沉浸感、娱乐性、感官丰富
+   参考：原神启动器、Cyberpunk 2077、Twitch、Among Us
+   ================================================================ */
+
+[data-ux="spectator"] {
+    --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-base: 15px;
+    --font-size-lg: 18px;
+    --font-size-xl: 22px;
+    --font-size-2xl: 28px;
+}
+
+/* ===== 导航栏 — 彩虹流光 ===== */
+[data-ux="spectator"] .navbar {
+    height: 56px;
+    background: linear-gradient(135deg, rgba(6,6,10,0.85), rgba(20,10,30,0.85));
+    backdrop-filter: blur(24px) saturate(1.8);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+[data-ux="spectator"] .navbar::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        #6366f1 15%,
+        #a855f7 30%,
+        #ec4899 50%,
+        #f59e0b 70%,
+        #22c55e 85%,
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: spectator-navbar-glow 4s linear infinite;
+}
+@keyframes spectator-navbar-glow {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+[data-ux="spectator"] .nav-btn {
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+[data-ux="spectator"] .nav-btn:hover {
+    background: rgba(255,255,255,0.06);
+}
+[data-ux="spectator"] .nav-btn.active {
+    color: var(--color-primary);
+    background: var(--color-primary-glow);
+}
+
+/* ===== Logo — 发光 ===== */
+[data-ux="spectator"] .logo {
+    animation: spectator-logo-glow 3s ease-in-out infinite;
+    font-size: 28px;
+}
+@keyframes spectator-logo-glow {
+    0%, 100% { filter: drop-shadow(0 0 8px var(--color-primary-glow)); }
+    50% { filter: drop-shadow(0 0 20px var(--color-primary-glow)); }
+}
+
+/* ===== 卡片 — 玻璃拟态 ===== */
+[data-ux="spectator"] .card {
+    padding: 24px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(17,17,24,0.8), rgba(25,25,32,0.6));
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(16px);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 4px 20px rgba(0,0,0,0.3),
+        0 0 40px rgba(99,102,241,0.03);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-ux="spectator"] .card:hover {
+    border-color: rgba(99,102,241,0.2);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 8px 30px rgba(0,0,0,0.4),
+        0 0 60px rgba(99,102,241,0.08);
+    transform: translateY(-2px);
+}
+
+/* ===== 按钮 — 脉冲发光 ===== */
+[data-ux="spectator"] .btn-primary {
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 0 20px var(--color-primary-glow), 0 0 40px rgba(99,102,241,0.1);
+    transition: all 0.3s ease;
+}
+[data-ux="spectator"] .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px var(--color-primary-glow), 0 0 60px rgba(99,102,241,0.15);
+}
+[data-ux="spectator"] .btn-secondary {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 14px;
+    backdrop-filter: blur(8px);
+}
+[data-ux="spectator"] .btn-secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.15);
+}
+
+/* ===== 输入框 ===== */
+[data-ux="spectator"] .input {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    backdrop-filter: blur(8px);
+}
+[data-ux="spectator"] .input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-glow), 0 0 20px rgba(99,102,241,0.1);
+    background: rgba(255,255,255,0.06);
+}
+
+/* ===== 场景卡片 — 3D 翻转 ===== */
+[data-ux="spectator"] .scenario-card {
+    padding: 24px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(17,17,24,0.8), rgba(25,25,32,0.6));
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(16px);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 4px 20px rgba(0,0,0,0.3),
+        0 0 40px rgba(99,102,241,0.03);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-ux="spectator"] .scenario-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(99,102,241,0.3);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 12px 40px rgba(0,0,0,0.5),
+        0 0 60px rgba(99,102,241,0.1);
+}
+[data-ux="spectator"] .scenario-card .scenario-emoji {
+    font-size: 56px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+}
+[data-ux="spectator"] .scenario-card .scenario-name {
+    font-size: 20px;
+    font-weight: 700;
+}
+[data-ux="spectator"] .scenario-card .scenario-desc {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ===== 设置页面 — 玻璃卡片 ===== */
+[data-ux="spectator"] .settings-section {
+    padding: 24px;
+    margin-bottom: 16px;
+    background: linear-gradient(145deg, rgba(17,17,24,0.8), rgba(25,25,32,0.6));
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+}
+[data-ux="spectator"] .settings-section-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+[data-ux="spectator"] .settings-section-desc {
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+[data-ux="spectator"] .mode-btn,
+[data-ux="spectator"] .accent-btn,
+[data-ux="spectator"] .ux-mode-btn {
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+[data-ux="spectator"] .mode-btn:hover,
+[data-ux="spectator"] .accent-btn:hover,
+[data-ux="spectator"] .ux-mode-btn:hover {
+    border-color: rgba(99,102,241,0.3);
+    transform: translateY(-2px);
+}
+[data-ux="spectator"] .mode-btn.active,
+[data-ux="spectator"] .accent-btn.active,
+[data-ux="spectator"] .ux-mode-btn.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-glow);
+    box-shadow: 0 0 20px var(--color-primary-glow);
+}
+
+/* ===== 观战区域 — 场景氛围 ===== */
+[data-ux="spectator"] .arena-table {
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: radial-gradient(ellipse at center, rgba(99,102,241,0.03) 0%, transparent 70%);
+}
+[data-ux="spectator"] .arena-header {
+    background: linear-gradient(135deg, rgba(6,6,10,0.8), rgba(20,10,30,0.8));
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    backdrop-filter: blur(16px);
+}
+
+/* ===== 座位卡 — 发光 ===== */
+[data-ux="spectator"] .seat-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 28px;
+    border-radius: 16px;
+    border: 2px solid rgba(255,255,255,0.08);
+    background: linear-gradient(145deg, rgba(30,30,40,0.9), rgba(20,20,30,0.7));
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+[data-ux="spectator"] .seat.alive .seat-avatar {
+    border-color: rgba(34,197,94,0.4);
+    box-shadow: 0 0 12px rgba(34,197,94,0.2);
+}
+[data-ux="spectator"] .seat.speaking .seat-avatar {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 24px var(--color-primary-glow), 0 0 48px rgba(99,102,241,0.15);
+    animation: spectator-speak-pulse 1.5s ease-in-out infinite;
+}
+@keyframes spectator-speak-pulse {
+    0%, 100% { box-shadow: 0 0 20px var(--color-primary-glow); }
+    50% { box-shadow: 0 0 35px var(--color-primary-glow), 0 0 60px rgba(99,102,241,0.2); }
+}
+[data-ux="spectator"] .seat-name {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ===== 消息气泡 — 弹出 ===== */
+[data-ux="spectator"] .speech-bubble {
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(30,30,40,0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(8px);
+    animation: spectator-bubble-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes spectator-bubble-pop {
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+[data-ux="spectator"] .speech-bubble.system {
+    background: rgba(99,102,241,0.06);
+    border-color: rgba(99,102,241,0.12);
+}
+
+/* ===== 玩家状态栏 ===== */
+[data-ux="spectator"] .player-card {
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(8px);
+    font-size: 13px;
+}
+
+/* ===== 粒子背景 ===== */
+[data-ux="spectator"] body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(1.5px 1.5px at 20px 30px, rgba(99,102,241,0.3), transparent),
+        radial-gradient(1.5px 1.5px at 80px 70px, rgba(168,85,247,0.2), transparent),
+        radial-gradient(1.5px 1.5px at 150px 40px, rgba(236,72,153,0.2), transparent),
+        radial-gradient(1.5px 1.5px at 220px 90px, rgba(99,102,241,0.15), transparent),
+        radial-gradient(1.5px 1.5px at 300px 20px, rgba(245,158,11,0.15), transparent);
+    background-size: 350px 120px;
+    animation: spectator-particle-drift 80s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+}
+@keyframes spectator-particle-drift {
+    from { transform: translateY(0) translateX(0); }
+    to { transform: translateY(-100vh) translateX(-20px); }
+}
+
+/* ===== 旁白字幕 ===== */
+[data-ux="spectator"] .arena-narrator {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    text-shadow: 0 0 10px var(--color-primary-glow);
+}
+
+/* ===== 再来一局按钮 ===== */
+[data-ux="spectator"] .arena-play-again {
+    background: var(--gradient-primary);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 0 20px var(--color-primary-glow);
+    animation: spectator-play-again-pulse 2s ease-in-out infinite;
+}
+@keyframes spectator-play-again-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--color-primary-glow); }
+    50% { transform: scale(1.03); box-shadow: 0 0 30px var(--color-primary-glow), 0 0 60px rgba(99,102,241,0.15); }
+}
+
+/* ===== 思考气泡 ===== */
+[data-ux="spectator"] .thinking-bubble {
+    animation: spectator-think-pulse 1.5s ease-in-out infinite;
+}
+@keyframes spectator-think-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--color-primary-glow); }
+    50% { box-shadow: 0 0 15px 5px var(--color-primary-glow); }
+}
+
+/* ===== 滚动条 ===== */
+[data-ux="spectator"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(99,102,241,0.2), rgba(139,92,246,0.15));
+    border-radius: 8px;
+}
+
+/* ===== 页面标题 ===== */
+[data-ux="spectator"] .page-header h2 {
+    font-size: var(--font-size-2xl);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+[data-ux="spectator"] .page-header p {
+    font-size: var(--font-size-sm);
+}
