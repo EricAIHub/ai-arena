@@ -75,26 +75,42 @@ class WerewolfScenario(BaseScenario):
         self.votes: dict[str, str] = {}  # voter_id -> target_id
 
     async def setup(self, players: list[Player]) -> list[GameEvent]:
-        """分配角色"""
-        # 根据人数决定角色分配
+        """分配角色（参考网易狼人杀、天天狼人杀标准配置）"""
         n = len(players)
-        if n == 6:
-            role_pool = ["狼人", "狼人", "预言家", "医生", "平民", "平民"]
-        elif n == 7:
-            role_pool = ["狼人", "狼人", "预言家", "医生", "平民", "平民", "平民"]
-        elif n == 8:
-            role_pool = ["狼人", "狼人", "狼人", "预言家", "医生", "平民", "平民", "平民"]
-        else:
-            role_pool = ["狼人"] * 3 + ["预言家", "医生"] + ["平民"] * (n - 5)
 
+        # 标准狼人杀角色配置
+        ROLE_CONFIGS = {
+            6:  {"狼人": 2, "预言家": 1, "医生": 1, "平民": 2},
+            7:  {"狼人": 2, "预言家": 1, "医生": 1, "平民": 3},
+            8:  {"狼人": 3, "预言家": 1, "医生": 1, "平民": 3},
+            9:  {"狼人": 3, "预言家": 1, "医生": 1, "平民": 4},
+            10: {"狼人": 3, "预言家": 1, "医生": 1, "女巫": 1, "平民": 4},
+        }
+
+        config = ROLE_CONFIGS.get(n)
+        if not config:
+            # 人数不在预设范围，动态计算
+            wolf_count = max(2, n // 3)
+            config = {"狼人": wolf_count, "预言家": 1, "医生": 1, "平民": n - wolf_count - 2}
+
+        # 构建角色池并随机分配
+        role_pool = []
+        for role, count in config.items():
+            role_pool.extend([role] * count)
         random.shuffle(role_pool)
 
         events = []
+
+        # 显示本局配置（像主流狼人杀的房间大厅）
+        config_text = " ".join([f"{role}×{count}" for role, count in config.items()])
+        total_wolves = config.get("狼人", 0)
+        total_good = n - total_wolves
         events.append(GameEvent(
             type="system",
-            content="🎮 游戏开始！狼人杀之夜降临...",
+            content=f"🎮 游戏开始！本局配置：{config_text}（{total_wolves}狼 {total_good}好人）",
         ))
 
+        # 随机分配角色给玩家
         for i, player in enumerate(players):
             player.role = role_pool[i]
             events.append(GameEvent(
