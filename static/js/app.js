@@ -14,16 +14,16 @@ const App = {
         // 连接 WebSocket
         gameWS.connect();
 
-        // 初始化各组件
-        await ConfigPanel.init();
-        await ScenarioSelect.init();
-        Arena.init();
-
-        // 绑定导航
+        // 先绑定导航（最重要，不能被组件错误阻塞）
         this.bindNavigation();
 
+        // 初始化各组件（任一组件失败不阻塞其他）
+        try { await ConfigPanel.init(); } catch(e) { console.error('ConfigPanel init failed:', e); }
+        try { await ScenarioSelect.init(); } catch(e) { console.error('ScenarioSelect init failed:', e); }
+        try { Arena.init(); } catch(e) { console.error('Arena init failed:', e); }
+
         // 初始化设置页面
-        this.initSettings();
+        try { this.initSettings(); } catch(e) { console.error('initSettings failed:', e); }
 
         // 新手引导
         this.initOnboarding();
