@@ -90,6 +90,7 @@ function createWindow() {
         show: false,
         frame: false,
         titleBarStyle: 'hidden',
+        roundedCorners: true,
         titleBarOverlay: {
             color: '#09090b',
             symbolColor: '#ffffff',
