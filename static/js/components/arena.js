@@ -43,6 +43,7 @@ const Arena = {
 
         gameWS.onEvent((event) => this.handleEvent(event));
         this.setupPlayAgain();
+        this.setupShareButton();
     },
 
     setupPlayAgain() {
@@ -58,10 +59,41 @@ const Arena = {
         this.feedElement.parentNode.appendChild(this.playAgainBtn);
     },
 
+    setupShareButton() {
+        this.shareBtn = document.createElement('button');
+        this.shareBtn.id = 'btn-share';
+        this.shareBtn.className = 'btn btn-secondary';
+        this.shareBtn.textContent = '📋 复制编年史';
+        this.shareBtn.style.cssText = 'margin-top: var(--space-2); width: 100%; display: none;';
+        this.shareBtn.addEventListener('click', () => this.copyChronicle());
+        this.feedElement.parentNode.appendChild(this.shareBtn);
+    },
+
+    async copyChronicle() {
+        try {
+            const resp = await fetch('/api/chronicle');
+            if (!resp.ok) { this.showToast('暂无编年史', 'warning'); return; }
+            const data = await resp.json();
+            await navigator.clipboard.writeText(data.chronicle);
+            this.showToast('已复制到剪贴板！', 'success');
+        } catch (e) {
+            this.showToast('复制失败', 'error');
+        }
+    },
+
+    showToast(msg, type) {
+        if (typeof Toast !== 'undefined') {
+            Toast.show(msg, type);
+        } else {
+            alert(msg);
+        }
+    },
+
     reset() {
         this.feedElement.innerHTML = '<div class="feed-empty"><span class="feed-empty-icon">🏟️</span><p>选择场景并开始游戏后，这里将显示实时对战内容</p></div>';
         this.playersElement.innerHTML = '';
         this.playAgainBtn.style.display = 'none';
+        this.shareBtn.style.display = 'none';
         this._players = [];
         this._messageTimes = [];
         this._isPaused = false;
@@ -93,6 +125,7 @@ const Arena = {
         document.getElementById('btn-pause').disabled = false;
         document.getElementById('btn-pause').textContent = '⏸ 暂停';
         this.playAgainBtn.style.display = 'none';
+        this.shareBtn.style.display = 'none';
 
         if (players && players.length) {
             this._players = players;
@@ -181,7 +214,6 @@ const Arena = {
         el.innerHTML = '<div class="speech-bubble-content"><div class="speech-bubble-text">⚙️ ' + this._esc(content) + '</div></div>';
         this.feedElement.appendChild(el);
         this.scrollToBottom();
-        // 更新中央区域文字（截取前50字）
         const centerText = document.querySelector('.arena-center-text');
         if (centerText) {
             const short = content.length > 50 ? content.substring(0, 50) + '...' : content;
@@ -231,12 +263,12 @@ const Arena = {
         el.className = 'speech-bubble game-over';
         el.innerHTML = '<div class="speech-bubble-content"><div class="speech-bubble-text" style="font-size:var(--text-lg);font-weight:700;">🎉 ' + this._esc(event.content) + '</div></div>';
         this.feedElement.appendChild(el);
-        // 显示统计数据
         this.showGameOverStats(event);
         document.getElementById('btn-stop').disabled = true;
         document.getElementById('btn-pause').disabled = true;
         document.getElementById('arena-phase').textContent = '游戏结束';
         this.playAgainBtn.style.display = 'block';
+        this.shareBtn.style.display = 'block';
         this.scrollToBottom();
     },
 
@@ -290,60 +322,6 @@ const Arena = {
         }
     },
 
-    showNarrator(text) {
-        const el = document.getElementById('narrator-text');
-        if (!el) return;
-        el.textContent = '';
-        el.style.borderRight = '2px solid var(--color-primary)';
-        let i = 0;
-        const type = () => {
-            if (i < text.length) { el.textContent += text[i]; i++; setTimeout(type, 50); }
-            else { setTimeout(() => { el.style.borderRight = 'none'; }, 2500); }
-        };
-        type();
-    },
-
-    setNightMode(players, wolfIds) {
-        if (!this._playerSeats) return;
-        Object.entries(this._playerSeats).forEach(([id, seat]) => {
-            seat.classList.remove('night-hidden', 'night-revealed', 'voting', 'voted', 'targeted');
-            if (wolfIds && wolfIds.includes(id)) { seat.style.filter = ''; }
-            else { seat.classList.add('night-hidden'); }
-        });
-    },
-
-    clearNightMode() {
-        if (!this._playerSeats) return;
-        Object.values(this._playerSeats).forEach(s => s.classList.remove('night-hidden', 'night-revealed'));
-    },
-
-    setVotingMode() {
-        if (!this._playerSeats) return;
-        Object.values(this._playerSeats).forEach(s => {
-            if (s.classList.contains('alive')) s.classList.add('voting');
-        });
-    },
-
-    markVoted(playerId) {
-        const s = this._playerSeats[playerId];
-        if (s) { s.classList.remove('voting'); s.classList.add('voted'); }
-    },
-
-    markTargeted(playerId) {
-        const s = this._playerSeats[playerId];
-        if (s) s.classList.add('targeted');
-    },
-
-    clearVotingMode() {
-        if (!this._playerSeats) return;
-        Object.values(this._playerSeats).forEach(s => s.classList.remove('voting', 'voted', 'targeted'));
-    },
-
-    revealPlayer(playerId) {
-        const s = this._playerSeats[playerId];
-        if (s) { s.classList.add('night-revealed'); setTimeout(() => s.classList.remove('night-revealed'), 2000); }
-    },
-
     scrollToBottom() {
         if (this.feedElement) this.feedElement.scrollTop = this.feedElement.scrollHeight;
     },
@@ -362,19 +340,16 @@ const Arena = {
     },
 
     showGameOverStats(event) {
-        // 游戏结束时显示统计信息
         const data = event.data || {};
         let statsHtml = '<div style="margin-top:var(--space-3);padding:var(--space-3);border-radius:var(--radius-md);background:var(--color-bg-secondary);">';
         if (data.winner) {
             statsHtml += '<div style="font-weight:600;margin-bottom:var(--space-2);">🏆 获胜方：' + this._esc(data.winner) + '</div>';
         }
-        if (data.rankings && Array.isArray(data.rankings)) {
-            statsHtml += '<div style="font-size:var(--text-sm);color:var(--color-text-secondary);">';
-            data.rankings.forEach((r, i) => {
-                const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '#' + (i+1);
-                statsHtml += medal + ' ' + this._esc(r.player || '???') + ' — ' + (r.score || 0) + '分<br>';
-            });
-            statsHtml += '</div>';
+        if (data.reason) {
+            statsHtml += '<div style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-2);">' + this._esc(data.reason) + '</div>';
+        }
+        if (data.funny_score) {
+            statsHtml += '<div style="font-size:var(--text-sm);">🤡 搞笑指数：' + this._esc(data.funny_score) + '</div>';
         }
         statsHtml += '</div>';
         const el = document.createElement('div');

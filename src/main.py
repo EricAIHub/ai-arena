@@ -18,6 +18,8 @@ from .scenarios.base import Player, GameEvent
 from .logger import arena_logger, log_game_summary
 from .elo import update_ratings_after_game, get_leaderboard, get_model_rating
 from .chronicle import generate_chronicle, generate_share_text
+from .replay import export_full_replay, export_replay_summary, save_replay, load_replay
+from .hall_of_fame import generate_hall_of_fame, get_champion_card, get_model_preset
 
 
 # ── 路径处理（兼容 PyInstaller 打包） ────────────────────────
@@ -358,7 +360,7 @@ async def start_game(data: dict):
                 log_game_summary(arena_logger, state)
 
                 # 更新 Elo 排名
-                winner = state.get("history", [{}])[-1].get("content", "") if state.get("history") else ""
+                winner = ""
                 for e in reversed(state.get("history", [])):
                     if e.get("type") == "game_over":
                         winner = e.get("data", {}).get("winner", "") or e.get("content", "")
@@ -381,12 +383,24 @@ async def start_game(data: dict):
                         events=game_engine.history,
                         winner=winner,
                     )
-                    # 保存到文件
                     chronicle_path = BASE_DIR / "data" / "last_chronicle.txt"
                     chronicle_path.write_text(chronicle, encoding="utf-8")
                     arena_logger.info("编年史已生成")
                 except Exception as ch_err:
                     arena_logger.warning(f"编年史生成失败: {ch_err}")
+
+                # 保存完整回放
+                try:
+                    replay = export_full_replay(
+                        scenario=scenario_id,
+                        players=game_engine.players,
+                        events=game_engine.history,
+                        winner=winner,
+                    )
+                    save_replay(replay)
+                    arena_logger.info("回放已保存")
+                except Exception as rp_err:
+                    arena_logger.warning(f"回放保存失败: {rp_err}")
             except Exception as e:
                 arena_logger.error(f"游戏异常终止: {e}", exc_info=True)
                 await ws_manager.send_error(f"游戏异常终止：{str(e)}", "GAME_ERROR")
@@ -470,6 +484,49 @@ async def get_chronicle():
     except Exception as e:
         arena_logger.error(f"获取编年史失败: {e}")
         return JSONResponse(status_code=500, content={"error": str(e), "code": "CHRONICLE_ERROR"})
+
+
+@app.get("/api/replay")
+async def get_replay():
+    """获取上一局的完整回放"""
+    try:
+        replay = load_replay()
+        if replay is None:
+            return JSONResponse(status_code=404, content={"error": "暂无回放", "code": "NO_REPLAY"})
+        return replay
+    except Exception as e:
+        arena_logger.error(f"获取回放失败: {e}")
+        return JSONResponse(status_code=500, content={"error": str(e), "code": "REPLAY_ERROR"})
+
+
+@app.get("/api/hall-of-fame")
+async def get_hall_of_fame(scenario: str = "overall", limit: int = 10):
+    """获取 AI 名人堂"""
+    try:
+        from .hall_of_fame import generate_hall_of_fame
+        return generate_hall_of_fame(scenario=scenario, limit=limit)
+    except Exception as e:
+        arena_logger.error(f"获取名人堂失败: {e}")
+        return JSONResponse(status_code=500, content={"error": str(e), "code": "HOF_ERROR"})
+
+
+@app.get("/api/share-card")
+async def get_share_card():
+    """获取分享卡"""
+    try:
+        replay = load_replay()
+        if not replay:
+            return JSONResponse(status_code=404, content={"error": "暂无数据", "code": "NO_DATA"})
+        summary = export_replay_summary(
+            scenario=replay.get("scenario", ""),
+            players=[],
+            events=[],
+            winner=replay.get("winner", ""),
+        )
+        return {"card": summary}
+    except Exception as e:
+        arena_logger.error(f"获取分享卡失败: {e}")
+        return JSONResponse(status_code=500, content={"error": str(e), "code": "SHARE_ERROR"})
 
 
 @app.get("/api/game/snapshot")

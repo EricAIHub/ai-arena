@@ -3,17 +3,11 @@
  */
 
 const API = {
-    /**
-     * 获取配置
-     */
     async getConfig() {
         const res = await fetch('/api/config');
         return res.json();
     },
 
-    /**
-     * 保存配置
-     */
     async saveConfig(config) {
         const res = await fetch('/api/config', {
             method: 'POST',
@@ -23,9 +17,6 @@ const API = {
         return res.json();
     },
 
-    /**
-     * 测试模型连接
-     */
     async testConnection(model) {
         const res = await fetch('/api/config/test', {
             method: 'POST',
@@ -35,17 +26,11 @@ const API = {
         return res.json();
     },
 
-    /**
-     * 获取场景列表
-     */
     async getScenarios() {
         const res = await fetch('/api/scenarios');
         return res.json();
     },
 
-    /**
-     * 开始游戏
-     */
     async startGame(data) {
         const res = await fetch('/api/game/start', {
             method: 'POST',
@@ -55,43 +40,66 @@ const API = {
         return res.json();
     },
 
-    /**
-     * 停止游戏
-     */
     async stopGame() {
         const res = await fetch('/api/game/stop', { method: 'POST' });
         return res.json();
     },
 
-    /**
-     * 重置游戏
-     */
     async resetGame() {
         const res = await fetch('/api/game/reset', { method: 'POST' });
         return res.json();
     },
 
-    /**
-     * 获取游戏状态
-     */
     async getGameState() {
         const res = await fetch('/api/game/state');
         return res.json();
     },
 
-    /**
-     * 暂停游戏
-     */
     async pauseGame() {
         const res = await fetch('/api/game/pause', { method: 'POST' });
         return res.json();
     },
 
-    /**
-     * 继续游戏
-     */
     async resumeGame() {
         const res = await fetch('/api/game/resume', { method: 'POST' });
+        return res.json();
+    },
+
+    async getLeaderboard(scenario, limit) {
+        const params = new URLSearchParams();
+        if (scenario) params.set('scenario', scenario);
+        if (limit) params.set('limit', String(limit));
+        const res = await fetch('/api/leaderboard?' + params.toString());
+        return res.json();
+    },
+
+    async getModelRating(modelName, scenario) {
+        const params = new URLSearchParams();
+        if (scenario) params.set('scenario', scenario);
+        const res = await fetch('/api/rating/' + encodeURIComponent(modelName) + '?' + params.toString());
+        return res.json();
+    },
+
+    async getChronicle() {
+        const res = await fetch('/api/chronicle');
+        return res.json();
+    },
+
+    async getReplay() {
+        const res = await fetch('/api/replay');
+        return res.json();
+    },
+
+    async getHallOfFame(scenario, limit) {
+        const params = new URLSearchParams();
+        if (scenario) params.set('scenario', scenario);
+        if (limit) params.set('limit', String(limit));
+        const res = await fetch('/api/hall-of-fame?' + params.toString());
+        return res.json();
+    },
+
+    async getShareCard() {
+        const res = await fetch('/api/share-card');
         return res.json();
     },
 };
