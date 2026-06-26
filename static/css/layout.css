@@ -990,9 +990,9 @@
     pointer-events: none;
 }
 
-/* 导航栏样式（仅 Electron 启用 drag） */
+/* Electron 窗口控制偏移 */
 .navbar {
-    margin-top: 0;
+    margin-top: 36px;
 }
 
 /* 导航栏内的按钮需要可点击，不被拖拽拦截 */
@@ -1012,6 +1012,8 @@ html {
 body {
     border-radius: 12px;
     overflow: hidden;
+    background: var(--color-bg);
+    min-height: 100vh;
 }
 
 /* ================================================================
